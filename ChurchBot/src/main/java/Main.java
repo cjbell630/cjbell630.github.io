@@ -24,7 +24,7 @@ public class Main extends ListenerAdapter {
 
     public static void main(String[] args) throws LoginException, IOException {
         JDABuilder builder = new JDABuilder(AccountType.BOT);
-        String token = "NjQzNDkzMjEzNjgzODQzMDcz.XcmU_A.jurSdNpGmEwFnOxyfbzNLChqCHQ";
+        String token = "NjQzNDkzMjEzNjgzODQzMDcz.Xdygmw.Ro0yTUQb5UYrutGVS_g1Wnu0wfE";
         builder.setToken(token);
         builder.addEventListeners(new Main());
         shard = builder.build();

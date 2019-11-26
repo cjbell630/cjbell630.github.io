@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: C:\Users\cb106\IdeaProjects\church-bot\build\classes\java\main
-Main-Class: Main
