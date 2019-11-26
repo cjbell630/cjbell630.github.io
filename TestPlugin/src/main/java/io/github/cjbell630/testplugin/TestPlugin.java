@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public final class TestPlugin extends JavaPlugin {
+    public TestPlugin(){
+        onEnable();
+    }
     private HashMap<String, String> playerList = new HashMap<String, String>();
 
     @Override
