@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/text_home"
@@ -21,11 +20,22 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
-        android:layout_width="163dp"
-        android:layout_height="172dp"
+        android:layout_width="127dp"
+        android:layout_height="103dp"
         android:clickable="true"
-        app:srcCompat="@android:drawable/ic_lock_power_off"
-        tools:layout_editor_absoluteX="285dp"
-        tools:layout_editor_absoluteY="258dp" />
+        android:focusable="true"
+        android:onClick="powerAction"
+        android:tint="#00A75151"
+        app:backgroundTint="#064400"
+        app:fabCustomSize="100dp"
+        app:fabSize="auto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.19999999"
+        app:maxImageSize="70dp"
+        app:srcCompat="@android:drawable/ic_lock_power_off" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

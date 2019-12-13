@@ -1,5 +1,6 @@
 package io.github.cjbell630.ui.home;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import io.github.cjbell630.R;
 
 public class HomeFragment extends Fragment {
@@ -28,6 +31,7 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
         return root;
     }
 }
