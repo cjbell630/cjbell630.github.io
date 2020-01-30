@@ -1,9 +1,11 @@
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.audio.SpeakingMode;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.JDA;
@@ -24,7 +26,7 @@ public class Main extends ListenerAdapter {
 
     public static void main(String[] args) throws LoginException, IOException {
         JDABuilder builder = new JDABuilder(AccountType.BOT);
-        String token = "NjQzNDkzMjEzNjgzODQzMDcz.Xdygmw.Ro0yTUQb5UYrutGVS_g1Wnu0wfE";
+        String token = "NjQzNDkzMjEzNjgzODQzMDcz.XiZNeA.-ChldCqfyEDTvXkF2zqZ9BkcFWM";
         builder.setToken(token);
         builder.addEventListeners(new Main());
         shard = builder.build();
@@ -39,12 +41,12 @@ public class Main extends ListenerAdapter {
         System.out.println("Received message from " + event.getAuthor().getName() + ": " + event.getMessage().getContentDisplay());
         try {
             react(event, event.getMessage().getContentRaw());
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public void react(@Nonnull MessageReceivedEvent event, String input) throws IOException {
+    public void react(@Nonnull MessageReceivedEvent event, String input) throws IOException, InterruptedException {
         char prefix = getTextFromFile("prefix").charAt(0);
         if (input.startsWith("" + prefix)) {
             //Call+Response
@@ -54,6 +56,18 @@ public class Main extends ListenerAdapter {
             }
             if (input.equalsIgnoreCase(prefix + "hello")) {
                 say(event,"hello i am churc");
+            }
+            if(input.startsWith(prefix + "visualize")) {
+                String channelName = input.substring(11);
+                System.out.println(channelName);
+                VoiceChannel channel = shard.getVoiceChannelsByName(channelName, true).get(0);
+                event.getGuild().getAudioManager().openAudioConnection(channel);
+                for(int i=0; i<100; i++){
+                    event.getGuild().getAudioManager().setSpeakingMode(SpeakingMode.VOICE);
+                    Thread.sleep(2000);
+                    event.getGuild().getAudioManager().setSpeakingMode(SpeakingMode.PRIORITY);
+                    Thread.sleep(2000);
+                }
             }
             //Setter
 
