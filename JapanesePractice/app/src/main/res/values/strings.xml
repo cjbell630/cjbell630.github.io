@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Japanese Practice</string>
+    <string name="action_settings">Settings</string>
+    <string name="input_romanji_hint">Type in Romanji</string>
+    <string name="switchTitle">Switch</string>
+    <string name="switch_hiragana">Hiragana</string>
+    <string name="switch_katakana">Katakana</string>
+</resources>
