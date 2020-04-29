@@ -245,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
         }
         kana = kana.replace("jy", "j");
         kana = kana.replace("shy", "sh");
+        kana = kana.replace("chy", "ch");
         int indexOfSmallTsu;
         while (kana.contains(smallTsuSymbol)) {
             indexOfSmallTsu = kana.indexOf(smallTsuSymbol);
