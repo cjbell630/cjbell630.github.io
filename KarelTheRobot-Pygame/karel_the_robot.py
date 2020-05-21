@@ -3,11 +3,12 @@ import numpy
 import threading
 import time
 from functools import wraps
+from itertools import count
 
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
 TILE_WIDTH = 10
-
+#TODO: maybe make has moved this frame a global
 FPS = 4
 
 BEEPERS = pygame.sprite.Group()
@@ -24,30 +25,30 @@ L_BLUE = (0, 124, 150)
 D_BLUE = (34, 25, 117)
 YELLOW = (255, 236, 0)
 CLR = (1, 1, 1)
+ORANGE = (255, 165, 0)
+PINK = (255, 165, 245)
+TEAL = (0, 160, 180)
+PURPLE = (200, 0, 255)
 
-KAREL_ON = [
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, CLR, CLR, CLR,
-     CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, BLACK,
-     CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, BLACK, L_GREY, L_GREY, D_GREY, D_GREY, L_GREY, L_GREY, L_GREY, D_GREY, D_GREY, L_GREY,
-     L_GREY, BLACK, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, BLACK, L_GREY, D_GREY, L_BLUE, BLACK, D_GREY, L_GREY, D_GREY, L_BLUE, BLACK, D_GREY,
-     L_GREY, BLACK, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, BLACK, L_GREY, D_GREY, BLACK, BLACK, D_GREY, L_GREY, D_GREY, BLACK, BLACK, D_GREY, L_GREY,
-     BLACK, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, BLACK, L_GREY, L_GREY, D_GREY, D_GREY, L_GREY, L_GREY, L_GREY, D_GREY, D_GREY, L_GREY,
-     L_GREY, BLACK, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, BLACK, L_GREY, L_GREY, L_GREY, L_GREY,
-     L_GREY, BLACK, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, BLACK, BLACK, BLACK, BLACK, L_GREY, L_GREY, L_GREY, BLACK, BLACK, BLACK, BLACK, CLR,
+SLEEVE_COLORS = [
+    ("Green", GREEN), ("Orange", ORANGE), ("Pink", PINK), ("Blue", TEAL), ("Purple", PURPLE)
+]
+
+KAREL_ON = numpy.array([
+    [CLR, CLR, CLR, CLR, CLR, CLR, BLACK, BLACK, BLACK, BLACK, CLR, CLR, CLR, BLACK, BLACK, BLACK, BLACK, CLR, CLR, CLR,
+     CLR, CLR, CLR],
+    [CLR, CLR, CLR, CLR, CLR, BLACK, RED, RED, RED, BLACK, CLR, CLR, CLR, BLACK, RED, RED, RED, BLACK, CLR, CLR, CLR,
+     CLR, CLR],
+    [CLR, CLR, CLR, CLR, CLR, BLACK, RED, RED, RED, RED, BLACK, D_BLUE, BLACK, RED, RED, RED, RED, BLACK, CLR, CLR, CLR,
+     CLR, CLR],
+    [CLR, CLR, CLR, CLR, CLR, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK,
      CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, BLACK, BLACK, YELLOW, YELLOW, YELLOW, BLACK, BLACK, BLACK, YELLOW, YELLOW, YELLOW, BLACK,
-     BLACK, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, BLACK, BLACK, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
-     YELLOW, BLACK, BLACK, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, BLACK, GREEN, BLACK, YELLOW, YELLOW, YELLOW, BLACK, YELLOW, YELLOW, YELLOW, BLACK, YELLOW, YELLOW,
-     YELLOW, BLACK, GREEN, BLACK, CLR, CLR, CLR],
+    [CLR, CLR, CLR, BLACK, BLACK, BLACK, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
+     YELLOW, BLACK, BLACK, BLACK, CLR, CLR, CLR],
+    [CLR, CLR, CLR, BLACK, D_GREY, BLACK, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
+     YELLOW, YELLOW, BLACK, D_GREY, BLACK, CLR, CLR, CLR],
+    [CLR, CLR, CLR, BLACK, D_GREY, BLACK, YELLOW, YELLOW, YELLOW, BLACK, YELLOW, YELLOW, YELLOW, BLACK, YELLOW, YELLOW,
+     YELLOW, BLACK, D_GREY, BLACK, CLR, CLR, CLR],
     [CLR, CLR, CLR, BLACK, GREEN, BLACK, YELLOW, YELLOW, YELLOW, BLACK, YELLOW, YELLOW, BLACK, YELLOW, YELLOW, YELLOW,
      YELLOW, BLACK, GREEN, BLACK, CLR, CLR, CLR],
     [CLR, CLR, CLR, BLACK, GREEN, BLACK, YELLOW, YELLOW, YELLOW, BLACK, YELLOW, BLACK, YELLOW, YELLOW, YELLOW, YELLOW,
@@ -58,21 +59,29 @@ KAREL_ON = [
      YELLOW, BLACK, GREEN, BLACK, CLR, CLR, CLR],
     [CLR, CLR, CLR, BLACK, GREEN, BLACK, YELLOW, YELLOW, YELLOW, BLACK, YELLOW, YELLOW, BLACK, YELLOW, YELLOW, YELLOW,
      YELLOW, BLACK, GREEN, BLACK, CLR, CLR, CLR],
-    [CLR, CLR, CLR, BLACK, D_GREY, BLACK, YELLOW, YELLOW, YELLOW, BLACK, YELLOW, YELLOW, YELLOW, BLACK, YELLOW, YELLOW,
-     YELLOW, BLACK, D_GREY, BLACK, CLR, CLR, CLR],
-    [CLR, CLR, CLR, BLACK, D_GREY, BLACK, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
-     YELLOW, YELLOW, BLACK, D_GREY, BLACK, CLR, CLR, CLR],
-    [CLR, CLR, CLR, BLACK, BLACK, BLACK, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
-     YELLOW, BLACK, BLACK, BLACK, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK,
+    [CLR, CLR, CLR, BLACK, GREEN, BLACK, YELLOW, YELLOW, YELLOW, BLACK, YELLOW, YELLOW, YELLOW, BLACK, YELLOW, YELLOW,
+     YELLOW, BLACK, GREEN, BLACK, CLR, CLR, CLR],
+    [CLR, CLR, CLR, CLR, BLACK, BLACK, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW, YELLOW,
+     YELLOW, BLACK, BLACK, CLR, CLR, CLR, CLR],
+    [CLR, CLR, CLR, CLR, CLR, BLACK, BLACK, YELLOW, YELLOW, YELLOW, BLACK, BLACK, BLACK, YELLOW, YELLOW, YELLOW, BLACK,
+     BLACK, CLR, CLR, CLR, CLR, CLR],
+    [CLR, CLR, CLR, CLR, CLR, CLR, BLACK, BLACK, BLACK, BLACK, L_GREY, L_GREY, L_GREY, BLACK, BLACK, BLACK, BLACK, CLR,
      CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, BLACK, RED, RED, RED, RED, BLACK, D_BLUE, BLACK, RED, RED, RED, RED, BLACK, CLR, CLR, CLR,
-     CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, BLACK, RED, RED, RED, BLACK, CLR, CLR, CLR, BLACK, RED, RED, RED, BLACK, CLR, CLR, CLR,
-     CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, BLACK, BLACK, BLACK, BLACK, CLR, CLR, CLR, BLACK, BLACK, BLACK, BLACK, CLR, CLR, CLR,
-     CLR, CLR, CLR]
-]
+    [CLR, CLR, CLR, CLR, CLR, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, BLACK, L_GREY, L_GREY, L_GREY, L_GREY,
+     L_GREY, BLACK, CLR, CLR, CLR, CLR, CLR],
+    [CLR, CLR, CLR, CLR, CLR, BLACK, L_GREY, L_GREY, D_GREY, D_GREY, L_GREY, L_GREY, L_GREY, D_GREY, D_GREY, L_GREY,
+     L_GREY, BLACK, CLR, CLR, CLR, CLR, CLR],
+    [CLR, CLR, CLR, CLR, CLR, BLACK, L_GREY, D_GREY, BLACK, BLACK, D_GREY, L_GREY, D_GREY, BLACK, BLACK, D_GREY, L_GREY,
+     BLACK, CLR, CLR, CLR, CLR, CLR],
+    [CLR, CLR, CLR, CLR, CLR, BLACK, L_GREY, D_GREY, L_BLUE, BLACK, D_GREY, L_GREY, D_GREY, L_BLUE, BLACK, D_GREY,
+     L_GREY, BLACK, CLR, CLR, CLR, CLR, CLR],
+    [CLR, CLR, CLR, CLR, CLR, BLACK, L_GREY, L_GREY, D_GREY, D_GREY, L_GREY, L_GREY, L_GREY, D_GREY, D_GREY, L_GREY,
+     L_GREY, BLACK, CLR, CLR, CLR, CLR, CLR],
+    [CLR, CLR, CLR, CLR, CLR, CLR, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, BLACK,
+     CLR, CLR, CLR, CLR, CLR, CLR],
+    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, CLR, CLR, CLR,
+     CLR, CLR, CLR, CLR]
+])
 
 BEEPER = [
     [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
@@ -121,121 +130,20 @@ BEEPER = [
     [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
 ]
 
-BEEPER_OLD = [
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, CLR, CLR, CLR, CLR, CLR,
-     CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, BLACK, BLACK, D_GREY, D_GREY, D_GREY, D_GREY, D_GREY, D_GREY, D_GREY, BLACK, BLACK,
-     CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, BLACK, D_GREY, D_GREY, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, D_GREY, D_GREY,
-     BLACK, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, BLACK, D_GREY, BLACK, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, BLACK,
-     BLACK, D_GREY, BLACK, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, BLACK, D_GREY, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY,
-     L_GREY, L_GREY, BLACK, D_GREY, BLACK, CLR, CLR, CLR],
-    [CLR, CLR, BLACK, D_GREY, BLACK, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY,
-     L_GREY, L_GREY, BLACK, BLACK, D_GREY, BLACK, CLR, CLR],
-    [CLR, BLACK, D_GREY, BLACK, L_GREY, L_GREY, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY,
-     L_GREY, BLACK, L_GREY, L_GREY, BLACK, D_GREY, BLACK, CLR],
-    [CLR, BLACK, D_GREY, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, BLACK, BLACK, BLACK, L_GREY, L_GREY,
-     L_GREY, L_GREY, L_GREY, L_GREY, BLACK, D_GREY, BLACK, CLR],
-    [BLACK, D_GREY, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, BLACK, RED, RED, RED, BLACK, L_GREY,
-     L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, BLACK, D_GREY, BLACK],
-    [BLACK, D_GREY, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, BLACK, RED, RED, RED, RED, RED, BLACK, L_GREY,
-     L_GREY, L_GREY, L_GREY, L_GREY, BLACK, D_GREY, BLACK],
-    [BLACK, D_GREY, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, BLACK, RED, RED, RED, RED, RED, RED, RED, BLACK,
-     L_GREY, L_GREY, L_GREY, L_GREY, BLACK, D_GREY, BLACK],
-    [BLACK, D_GREY, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, BLACK, RED, RED, RED, RED, RED, RED, RED, BLACK,
-     L_GREY, L_GREY, L_GREY, L_GREY, BLACK, D_GREY, BLACK],
-    [BLACK, D_GREY, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, BLACK, RED, RED, RED, RED, RED, RED, RED, BLACK,
-     L_GREY, L_GREY, L_GREY, L_GREY, BLACK, D_GREY, BLACK],
-    [BLACK, D_GREY, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, BLACK, RED, RED, RED, RED, RED, BLACK, L_GREY,
-     L_GREY, L_GREY, L_GREY, L_GREY, BLACK, D_GREY, BLACK],
-    [BLACK, D_GREY, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, BLACK, RED, RED, RED, BLACK, L_GREY,
-     L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, BLACK, D_GREY, BLACK],
-    [CLR, BLACK, D_GREY, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, BLACK, BLACK, BLACK, L_GREY, L_GREY,
-     L_GREY, L_GREY, L_GREY, L_GREY, BLACK, D_GREY, BLACK, CLR],
-    [CLR, BLACK, D_GREY, BLACK, L_GREY, L_GREY, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY,
-     L_GREY, BLACK, L_GREY, L_GREY, BLACK, D_GREY, BLACK, CLR],
-    [CLR, CLR, BLACK, D_GREY, BLACK, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY,
-     L_GREY, L_GREY, BLACK, BLACK, D_GREY, BLACK, CLR, CLR],
-    [CLR, CLR, CLR, BLACK, D_GREY, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY,
-     L_GREY, L_GREY, BLACK, D_GREY, BLACK, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, BLACK, D_GREY, BLACK, BLACK, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, L_GREY, BLACK,
-     BLACK, D_GREY, BLACK, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, BLACK, D_GREY, D_GREY, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, D_GREY, D_GREY,
-     BLACK, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, BLACK, BLACK, D_GREY, D_GREY, D_GREY, D_GREY, D_GREY, D_GREY, D_GREY, BLACK, BLACK,
-     CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, CLR, CLR, CLR, CLR, CLR,
-     CLR, CLR, CLR],
-]
-
-H_WALL = [
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [BLACK, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED,
-     BLACK],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR]
-]
-H_WALL_OLD = [
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [BLACK, CLR, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK,
-     BLACK, BLACK, BLACK, BLACK, BLACK, CLR, BLACK],
-    [D_GREY, BLACK, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY,
-     D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, BLACK, D_GREY],
-    [BLACK, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY,
-     L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, BLACK],
-    [BLACK, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY,
-     D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, BLACK],
-    [BLACK, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED, RED,
-     BLACK],
-    [BLACK, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY,
-     D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, BLACK],
-    [BLACK, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY,
-     L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, BLACK],
-    [D_GREY, BLACK, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY,
-     D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, L_GREY, D_GREY, BLACK, D_GREY],
-    [BLACK, CLR, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK,
-     BLACK, BLACK, BLACK, BLACK, BLACK, CLR, BLACK],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR],
-    [CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR, CLR]
-]
-
 BEEPER_SURF = 0
 
 
+def replace_2d(array, value, replacement):
+    array = array.copy()
+    for x in range(0, len(array)):
+        for y in range(0, len(array[x])):
+            if all(array[x][y] == value):
+                array[x][y] = replacement
+    return array
+
+
 def readable_pixarray_to_surface(array):
-    array = array.swapaxes(0, 1)
+    # array = array.swapaxes(0, 1)
     surf = pygame.Surface(array.shape[0:2], pygame.SRCALPHA).convert()
     pygame.surfarray.blit_array(surf, array)
     surf.set_colorkey(CLR)
@@ -277,56 +185,67 @@ def extract_vals_inside_parenthesis(string, open_parenthesis_index):
     return p
 
 
-class Robot(pygame.sprite.Sprite):  # TODO: should have direction 0 be facing right
-    def __init__(self, x, y, direction, num_of_beepers):
+class Robot(pygame.sprite.Sprite):
+    _ids = count(0)
+
+    def __init__(self, x, y, direction, num_of_beepers, color=-1): #color is an int, maybe add string colors eventually
         super().__init__()
         print("i am a robot")
+        self.id = next(self._ids)
+        self.__color = SLEEVE_COLORS[(self.id if color == -1 else color) % len(SLEEVE_COLORS)]
         self.tile_x = x
         self.tile_y = y
         self.direction = direction
         self.beepers = num_of_beepers
-        self.commands_this_frame = -1
+        self.has_moved_this_frame = True
         self.image = 0
         self.rect = 0
         self.is_alive = True
         self.prev_fps = 4
         self.zoom_fps = 20
+        # self.array = numpy.where(KAREL_ON == , self.__color, KAREL_ON)
+        self.array = replace_2d(KAREL_ON, GREEN, self.__color[1])
+        print(self.array[0][6])
 
     def scale_image(self, width):
         self.image = pygame.transform.rotate(
-            pygame.transform.scale(readable_pixarray_to_surface(numpy.array(KAREL_ON)), (width, width)),
-            0 - self.direction)
+            pygame.transform.scale(readable_pixarray_to_surface(self.array), (width, width)),
+            self.direction)
         self.rect = self.image.get_rect()
         self.rect.x = tile_to_point(self.tile_x - 0.5)
         self.rect.y = tile_to_point(self.tile_y - 0.5)
 
-    def turn_left(self):  # TODO: make turn correctly, double check if change default direction
+    def get_sleeve_color(self):
+        return self.__color[0]
+
+    def turn_left(self):
         self.wait()
         print("turned")
         self.image = pygame.transform.rotate(self.image, 90)
         self.direction = (self.direction + 90) % 360
-        self.commands_this_frame += 1
+        self.has_moved_this_frame = True
 
-    def move(self):  # TODO: fix if change default directiom
+    def move(self):
         self.wait()
-        if self.direction == 0:
-            if not wall_at(self.tile_x, self.tile_y + 0.5):
-                self.rect.y += TILE_WIDTH
-                self.tile_y += 1
-        elif self.direction == 180:
-            if not wall_at(self.tile_x, self.tile_y - 0.5):
-                self.rect.y -= TILE_WIDTH
-                self.tile_y -= 1
-        elif self.direction == 90:
-            if not wall_at(self.tile_x + 0.5, self.tile_y):
+        if self.front_is_clear():
+            if self.direction == 0:
                 self.rect.x += TILE_WIDTH
                 self.tile_x += 1
-        elif self.direction == 270:
-            if not wall_at(self.tile_x - 0.5, self.tile_y):
+            elif self.direction == 180:
                 self.rect.x -= TILE_WIDTH
                 self.tile_x -= 1
-        print("moved")
-        self.commands_this_frame += 1
+            elif self.direction == 270:
+                self.rect.y += TILE_WIDTH
+                self.tile_y += 1
+            elif self.direction == 90:
+                self.rect.y -= TILE_WIDTH
+                self.tile_y -= 1
+        else:
+            print("hit a wall")
+            self.turn_off()
+
+        print("tried to move")
+        self.has_moved_this_frame = True
 
     def pick_beeper(self):
         global BEEPERS
@@ -335,7 +254,7 @@ class Robot(pygame.sprite.Sprite):  # TODO: should have direction 0 be facing ri
         if len(beepers_at_pos) > 0:
             beepers_at_pos[0].dec()
             self.beepers += 1
-        self.commands_this_frame += 1
+        self.has_moved_this_frame = True
 
     def put_beeper(self):
         global BEEPERS
@@ -348,17 +267,33 @@ class Robot(pygame.sprite.Sprite):  # TODO: should have direction 0 be facing ri
                 self.beepers -= 1
             else:
                 BEEPERS.add(Beeper(self.tile_x, self.tile_y, 1))
-        self.commands_this_frame += 1
+        self.has_moved_this_frame = True
 
     def wait(self):
         global FPS
-        while self.commands_this_frame != 0:
-            print("waiting for frame")
-            time.sleep(1.0 / FPS)
+        if self.is_alive:  # prevents commands from being run before the loop checks for dead robots, putting it in an infinite loop
+            while self.has_moved_this_frame:
+                print("waiting for frame")
+                time.sleep(1.0 / FPS)
+
+    def front_is_clear(self):
+        if self.direction == 0:
+            return not wall_at(self.tile_x + 0.5, self.tile_y)
+        elif self.direction == 180:
+            return not wall_at(self.tile_x - 0.5, self.tile_y)
+        elif self.direction == 270:
+            return not wall_at(self.tile_x, self.tile_y + 0.5)
+        elif self.direction == 90:
+            return not wall_at(self.tile_x, self.tile_y - 0.5)
+        else:
+            return False
 
     def turn_off(self):
+        global TILE_WIDTH
         self.wait()
         self.is_alive = False
+        self.array = replace_2d(self.array, YELLOW, L_GREY)
+        self.scale_image(TILE_WIDTH)
         print("am dead")
 
     def draw(self, screen):
@@ -383,13 +318,12 @@ class Robot(pygame.sprite.Sprite):  # TODO: should have direction 0 be facing ri
     def zoom(self, on):  # TODO: zooming is quirky
         self.wait()
         global FPS
+        self.has_moved_this_frame = True
         if on:
-            self.commands_this_frame += 1
             self.prev_fps = FPS
             FPS = self.zoom_fps
             print("ZOOM")
         else:
-            self.commands_this_frame += 1
             FPS = self.prev_fps
             print("no longer zooming")
 
@@ -512,7 +446,7 @@ class World(object):
     def __run(self):
 
         print("Initializing...")
-        global SCREEN_WIDTH, SCREEN_HEIGHT, TILE_WIDTH, FPS, BEEPERS, BEEPER_SURF, H_WALL, WALLS
+        global SCREEN_WIDTH, SCREEN_HEIGHT, TILE_WIDTH, FPS, BEEPERS, BEEPER_SURF, WALLS
         pygame.init()
         TILE_WIDTH = int(min(self.IDEAL_WIDTH / (self.width + 1), self.IDEAL_HEIGHT / (self.height + 1)))
         if TILE_WIDTH % 2 == 1:
@@ -546,16 +480,14 @@ class World(object):
             self.background.blit(pygame.font.Font('freesansbold.ttf', 10).render(str(y), True, BLACK),
                                  (0.25 * TILE_WIDTH, (y + 0.5) * TILE_WIDTH))
 
-        H_WALL_SURF = pygame.transform.scale(readable_pixarray_to_surface(numpy.array(H_WALL)),
-                                             (TILE_WIDTH, TILE_WIDTH))
-        V_WALL_SURF = pygame.transform.rotate(H_WALL_SURF, 90)
-
         for w in self.wall_pos:
+            pygame.draw.line(self.background, RED,
+                             (tile_to_point(w[1]), tile_to_point(w[2])),
+                             (tile_to_point(w[3] if w[0] == 0 else w[1]), tile_to_point(w[3] if w[0] == 1 else w[2])),
+                             3)
             for i in range(0, int(abs(w[3] - w[1 if w[0] == 0 else 2]))):
-                self.background.blit(H_WALL_SURF if w[0] == 0 else V_WALL_SURF, (
-                    tile_to_point(w[1] - 0.5 + (i if w[0] == 0 else 0)),
-                    tile_to_point(w[2] - 0.5 + (i if w[0] == 1 else 0))))
-                WALLS.append((w[1] + (i if w[0] == 0 else 0), w[2] + (i if w[0] == 1 else 0)))
+                WALLS.append((w[1] + (i + 0.5 if w[0] == 0 else 0), w[2] + (
+                    i + 0.5 if w[0] == 1 else 0)))  # TODO: doesnt work if you input walls backwards i think
         print(WALLS)
         pygame.display.set_caption("Karel J Robot")
 
@@ -570,7 +502,7 @@ class World(object):
 
             for r in self.robots:
                 r.draw(self.screen)
-                r.commands_this_frame = 0
+                r.has_moved_this_frame = False
 
             self.clock.tick(FPS)
             pygame.display.flip()
