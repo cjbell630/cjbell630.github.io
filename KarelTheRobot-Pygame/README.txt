@@ -1,4 +1,5 @@
 legacy: true/false    #optional | default: false
+name: name
 size: (x y)
 fps: fps      #optional | default: 4
 beepers: (x y n) (x y n) (x y n) (x y n)     #optional
