@@ -1,7 +1,10 @@
 package io.github.japanesepractice;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
@@ -14,6 +17,8 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -145,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            DialogWindow bruhWindow = new DialogWindow("Most Recent Correct Answer: \n\n" + textInRomanji);
+            bruhWindow.show(getSupportFragmentManager(), "this is the tag");
             return true;
         }
 
@@ -282,5 +289,37 @@ public class MainActivity extends AppCompatActivity {
 
     public int rand(int a, int b) {
         return (int) (Math.random() * (Math.abs(a - b) + 1)) + Math.min(a, b);
+    }
+
+    public static class DialogWindow extends DialogFragment {
+        String message = "message";
+
+        public DialogWindow(String message){
+            this.message = message;
+        }
+
+        public void setMessage(String message){
+            this.message = message;
+        }
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(message)
+                    .setPositiveButton("Oh Okay", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // FIRE ZE MISSILES!
+                        }
+                    })
+                    .setNegativeButton("I am a clown", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
     }
 }
