@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: io.github.cjbell630.testplugin.Main
-Class-Path: D:\Documents\GitHub\TestPlugin\target\classes
-
