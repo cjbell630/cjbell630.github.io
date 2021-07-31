@@ -1,0 +1,17 @@
+body {
+    background-color: black;
+    color: white;
+}
+
+.center {
+    height: 97vh;
+    display: flex;
+    align-items: center; /* vertical */
+    justify-content: center; /* horizontal */
+}
+
+.round_box {
+    background-color: whitesmoke;
+    color: grey;
+    border-radius: 25px;
+}
