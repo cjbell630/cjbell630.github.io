@@ -3,6 +3,17 @@ body {
     color: white;
 }
 
+html,
+body {
+    display: flex;
+    align-items: stretch;
+    align-content: stretch;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .center {
     height: 97vh;
     display: flex;
@@ -14,6 +25,13 @@ body {
     background-color: whitesmoke;
     color: grey;
     border-radius: 25px;
+}
+
+#canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
 }
 
 /* START LANGUAGE SWITCH */
