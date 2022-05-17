@@ -64,20 +64,35 @@ function drawGallifreyan() {
     ctx.beginPath();
 
     // draw circle 1 (top)
-    let topCircStartX = centerX - ((innerRad - smallCircRad) * Math.cos((90-tick) * Math.PI / 180));
-    let topCircStartY = centerY - ((innerRad - smallCircRad) * Math.sin((90-tick) * Math.PI / 180));
-    ctx.arc(topCircStartX, topCircStartY, smallCircRad, tick * Math.PI / 60, (120+tick) * Math.PI / 60);
+    let circ1CenterX = centerX - ((innerRad - smallCircRad) * Math.cos((90-tick) * Math.PI / 180));
+    let circ1CenterY = centerY - ((innerRad - smallCircRad) * Math.sin((90-tick) * Math.PI / 180));
+    ctx.arc(circ1CenterX, circ1CenterY, smallCircRad, tick * Math.PI / 60, (120+tick) * Math.PI / 60);
 
     // draw circle 2 (right)
     ctx.arc(centerX - ((innerRad - smallCircRad) * Math.cos((tick-120) * Math.PI / 120)), centerY - ((innerRad - smallCircRad) * Math.sin((tick) * Math.PI / 120)), smallCircRad, tick * Math.PI / 90, (180+tick) * Math.PI / 90);
+    ctx.stroke();
+    ctx.beginPath();
+
+    // draw circle 3 (bottom)
+    let circ3CenterX = centerX - ((innerRad - smallCircRad) * Math.cos((270-tick) * Math.PI / 270));
+    let circ3CenterY = centerY - ((innerRad - smallCircRad) * Math.sin((tick-270) * Math.PI / 270));
+    ctx.arc(circ3CenterX, circ3CenterY, smallCircRad, 0, 2 * Math.PI);
 
     ctx.stroke();
     ctx.beginPath();
-    // draw tiny ornament circle on top
-    ctx.arc(topCircStartX - smallCircRad*Math.cos((60+tick) * Math.PI / 60), topCircStartY -  smallCircRad*Math.sin((60+tick) * Math.PI / 60), tinyCircRad, 0, 2 * Math.PI);
+    // draw tiny ornament on circle 1
+    ctx.arc(circ1CenterX - smallCircRad*Math.cos((60+tick) * Math.PI / 60), circ1CenterY -  smallCircRad*Math.sin((60+tick) * Math.PI / 60), tinyCircRad, 0, 2 * Math.PI);
+
 
     ctx.stroke();
-    tick = (tick + 1) % 720;
+    ctx.beginPath();
+
+    // draw tiny ornament on circle 3
+    ctx.arc(circ3CenterX - smallCircRad*Math.cos((60-tick) * Math.PI / 60), circ3CenterY -  smallCircRad*Math.sin((60-tick) * Math.PI / 60), tinyCircRad, 0, 2 * Math.PI);
+
+
+    ctx.stroke();
+    tick = (tick + 1) % 2160;
     window.requestAnimationFrame(drawGallifreyan);
 }
 
