@@ -43,6 +43,7 @@ function drawGallifreyan() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.strokeStyle = "#ffffff"
+    ctx.lineWidth = 5;
     ctx.beginPath();
 
     // draw outer ring
@@ -92,7 +93,7 @@ function drawGallifreyan() {
 
 
     ctx.stroke();
-    tick = (tick + 1) % 2160;
+    tick = (tick + 0.5) % 2160;
     window.requestAnimationFrame(drawGallifreyan);
 }
 
