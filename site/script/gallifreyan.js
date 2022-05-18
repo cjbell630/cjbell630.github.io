@@ -73,11 +73,11 @@ function drawGallifreyan() {
     let circ1Angle = (90 - tick) * Math.PI / 180
     let circ1CenterX = centerX - ((innerRad - smallCircRad) * Math.cos(circ1Angle));
     let circ1CenterY = centerY - ((innerRad - smallCircRad) * Math.sin(circ1Angle));
-    ctx.arc(circ1CenterX, circ1CenterY, smallCircRad, -Math.PI*circ1Angle, -Math.PI*circ1Angle + Math.PI*2);
+    ctx.arc(circ1CenterX, circ1CenterY, smallCircRad, -Math.PI * circ1Angle, -Math.PI * circ1Angle + Math.PI * 2);
 
     // draw circle 2 (right)
     let circ2Angle = (tick - 270) * Math.PI / 270;
-    ctx.arc(centerX - ((innerRad - smallCircRad) * Math.cos(circ2Angle)), centerY - ((innerRad - smallCircRad) * Math.sin(circ2Angle)), smallCircRad, -circ2Angle*Math.PI, -circ2Angle*Math.PI+2*Math.PI);
+    ctx.arc(centerX - ((innerRad - smallCircRad) * Math.cos(circ2Angle)), centerY - ((innerRad - smallCircRad) * Math.sin(circ2Angle)), smallCircRad, -circ2Angle * Math.PI, -circ2Angle * Math.PI + 2 * Math.PI);
     ctx.stroke();
     ctx.beginPath();
 
@@ -90,14 +90,14 @@ function drawGallifreyan() {
     ctx.stroke();
     ctx.beginPath();
     // draw tiny ornament on circle 1
-    ctx.arc(circ1CenterX + smallCircRad * Math.cos(-Math.PI*circ1Angle), circ1CenterY + smallCircRad * Math.sin(-Math.PI*circ1Angle), tinyCircRad, 0, 2 * Math.PI);
+    ctx.arc(circ1CenterX + smallCircRad * Math.cos(-Math.PI * circ1Angle), circ1CenterY + smallCircRad * Math.sin(-Math.PI * circ1Angle), tinyCircRad, 0, 2 * Math.PI);
 
 
     ctx.stroke();
     ctx.beginPath();
 
     // draw tiny ornament on circle 3
-    ctx.arc(circ3CenterX - smallCircRad * Math.cos(-Math.PI*circ3Angle), circ3CenterY - smallCircRad * Math.sin(-Math.PI*circ3Angle), tinyCircRad, 0, 2 * Math.PI);
+    ctx.arc(circ3CenterX + smallCircRad * Math.cos((Math.PI / 6) - Math.PI * circ3Angle), circ3CenterY + smallCircRad * Math.sin((Math.PI / 6) - Math.PI * circ3Angle), tinyCircRad, 0, 2 * Math.PI);
     ctx.stroke();
 
 
@@ -112,7 +112,7 @@ function drawGallifreyan() {
     // draw dots in circle3 interior
     for (let i = 0; i < 2; i++) {
         ctx.beginPath();
-        let angle = -Math.PI*circ3Angle - (1 - i) * Math.PI / 6
+        let angle = -Math.PI * circ3Angle - (1 - i) * Math.PI / 6
         ctx.arc(circ3CenterX + smallCircRad * 0.875 * Math.cos(angle), circ3CenterY + smallCircRad * 0.875 * Math.sin(angle), 6, 0, 2 * Math.PI);
         ctx.fill();
         ctx.stroke();
