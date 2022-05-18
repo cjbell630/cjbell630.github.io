@@ -43,6 +43,7 @@ function drawGallifreyan() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.strokeStyle = "#ffffff"
+    ctx.fillStyle = "#ffffff";
     ctx.lineWidth = 5;
     ctx.beginPath();
 
@@ -59,7 +60,10 @@ function drawGallifreyan() {
     ctx.beginPath();
 
     // draw inner ring chunk (46pi/36 chunk
-    ctx.arc(centerX - (chunkDist * Math.cos(tick * Math.PI / 180)), centerY - chunkDist * Math.sin(tick * Math.PI / 180), chunkRad, (tick + 295) * Math.PI / 180, (tick + 65) * Math.PI / 180);
+    let chunkAngle = tick * Math.PI / 180;
+    let chunkCenterX = centerX - chunkDist * Math.cos(chunkAngle);
+    let chunkCenterY = centerY - chunkDist * Math.sin(chunkAngle);
+    ctx.arc(chunkCenterX, chunkCenterY, chunkRad, (tick + 295) * Math.PI / 180, (tick + 65) * Math.PI / 180);
 
     ctx.stroke();
     ctx.beginPath();
@@ -89,10 +93,27 @@ function drawGallifreyan() {
     ctx.beginPath();
 
     // draw tiny ornament on circle 3
-    ctx.arc(circ3CenterX - smallCircRad*Math.cos((60-tick) * Math.PI / 60), circ3CenterY -  smallCircRad*Math.sin((60-tick) * Math.PI / 60), tinyCircRad, 0, 2 * Math.PI);
-
-
+    let circ3Angle = (60-tick) * Math.PI / 60;
+    ctx.arc(circ3CenterX - smallCircRad*Math.cos(circ3Angle), circ3CenterY -  smallCircRad*Math.sin(circ3Angle), tinyCircRad, 0, 2 * Math.PI);
     ctx.stroke();
+
+
+    // draw dots in chunk interior
+    for(let i=0; i<3; i++){
+        ctx.beginPath();
+        let angle = chunkAngle - (1-i)*Math.PI/6
+        ctx.arc(chunkCenterX + chunkRad * 0.875*Math.cos(angle), chunkCenterY +  chunkRad * 0.875*Math.sin(angle), 6, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+    }
+    // draw dots in circle3 interior
+    for(let i=0; i<2; i++){
+        ctx.beginPath();
+        let angle = circ3Angle - (1-i)*Math.PI/6
+        ctx.arc(circ3CenterX + smallCircRad * 0.875*Math.cos(angle), circ3CenterY +  smallCircRad * 0.875*Math.sin(angle), 6, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+    }
     tick = (tick + 0.5) % 2160;
     window.requestAnimationFrame(drawGallifreyan);
 }
