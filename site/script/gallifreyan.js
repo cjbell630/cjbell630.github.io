@@ -17,9 +17,10 @@ let innerRad = centerY * 0.7;
 let chunkDist = Math.sin(19 * Math.PI / 36) * innerRad / Math.sin(13 * Math.PI / 36);
 let chunkRad = centerY * 0.7 * Math.sin(Math.PI / 9) / Math.sin(13 * Math.PI / 36);
 
-let smallCircRad =innerRad + chunkRad - chunkDist;
+let smallCircRad = innerRad + chunkRad - chunkDist;
 
-let tinyCircRad =smallCircRad/4;
+let tinyCircRad = smallCircRad / 4;
+
 /**
  * https://codepen.io/jacquelinclem/pen/mdJONg
  */
@@ -69,52 +70,54 @@ function drawGallifreyan() {
     ctx.beginPath();
 
     // draw circle 1 (top)
-    let circ1CenterX = centerX - ((innerRad - smallCircRad) * Math.cos((90-tick) * Math.PI / 180));
-    let circ1CenterY = centerY - ((innerRad - smallCircRad) * Math.sin((90-tick) * Math.PI / 180));
-    ctx.arc(circ1CenterX, circ1CenterY, smallCircRad, tick * Math.PI / 60, (120+tick) * Math.PI / 60);
+    let circ1Angle = (90 - tick) * Math.PI / 180
+    let circ1CenterX = centerX - ((innerRad - smallCircRad) * Math.cos(circ1Angle));
+    let circ1CenterY = centerY - ((innerRad - smallCircRad) * Math.sin(circ1Angle));
+    ctx.arc(circ1CenterX, circ1CenterY, smallCircRad, -Math.PI*circ1Angle, -Math.PI*circ1Angle + Math.PI*2);
 
     // draw circle 2 (right)
-    ctx.arc(centerX - ((innerRad - smallCircRad) * Math.cos((tick-120) * Math.PI / 120)), centerY - ((innerRad - smallCircRad) * Math.sin((tick) * Math.PI / 120)), smallCircRad, tick * Math.PI / 90, (180+tick) * Math.PI / 90);
+    let circ2Angle = (tick - 270) * Math.PI / 270;
+    ctx.arc(centerX - ((innerRad - smallCircRad) * Math.cos(circ2Angle)), centerY - ((innerRad - smallCircRad) * Math.sin(circ2Angle)), smallCircRad, -circ2Angle*Math.PI, -circ2Angle*Math.PI+2*Math.PI);
     ctx.stroke();
     ctx.beginPath();
 
     // draw circle 3 (bottom)
-    let circ3CenterX = centerX - ((innerRad - smallCircRad) * Math.cos((270-tick) * Math.PI / 270));
-    let circ3CenterY = centerY - ((innerRad - smallCircRad) * Math.sin((tick-270) * Math.PI / 270));
+    let circ3Angle = (180 - tick) * Math.PI / 120;
+    let circ3CenterX = centerX - ((innerRad - smallCircRad) * Math.cos(circ3Angle));
+    let circ3CenterY = centerY - ((innerRad - smallCircRad) * Math.sin(circ3Angle));
     ctx.arc(circ3CenterX, circ3CenterY, smallCircRad, 0, 2 * Math.PI);
 
     ctx.stroke();
     ctx.beginPath();
     // draw tiny ornament on circle 1
-    ctx.arc(circ1CenterX - smallCircRad*Math.cos((60+tick) * Math.PI / 60), circ1CenterY -  smallCircRad*Math.sin((60+tick) * Math.PI / 60), tinyCircRad, 0, 2 * Math.PI);
+    ctx.arc(circ1CenterX + smallCircRad * Math.cos(-Math.PI*circ1Angle), circ1CenterY + smallCircRad * Math.sin(-Math.PI*circ1Angle), tinyCircRad, 0, 2 * Math.PI);
 
 
     ctx.stroke();
     ctx.beginPath();
 
     // draw tiny ornament on circle 3
-    let circ3Angle = (60-tick) * Math.PI / 60;
-    ctx.arc(circ3CenterX - smallCircRad*Math.cos(circ3Angle), circ3CenterY -  smallCircRad*Math.sin(circ3Angle), tinyCircRad, 0, 2 * Math.PI);
+    ctx.arc(circ3CenterX - smallCircRad * Math.cos(-Math.PI*circ3Angle), circ3CenterY - smallCircRad * Math.sin(-Math.PI*circ3Angle), tinyCircRad, 0, 2 * Math.PI);
     ctx.stroke();
 
 
     // draw dots in chunk interior
-    for(let i=0; i<3; i++){
+    for (let i = 0; i < 3; i++) {
         ctx.beginPath();
-        let angle = chunkAngle - (1-i)*Math.PI/6
-        ctx.arc(chunkCenterX + chunkRad * 0.875*Math.cos(angle), chunkCenterY +  chunkRad * 0.875*Math.sin(angle), 6, 0, 2 * Math.PI);
+        let angle = chunkAngle - (1 - i) * Math.PI / 6
+        ctx.arc(chunkCenterX + chunkRad * 0.875 * Math.cos(angle), chunkCenterY + chunkRad * 0.875 * Math.sin(angle), 6, 0, 2 * Math.PI);
         ctx.fill();
         ctx.stroke();
     }
     // draw dots in circle3 interior
-    for(let i=0; i<2; i++){
+    for (let i = 0; i < 2; i++) {
         ctx.beginPath();
-        let angle = circ3Angle - (1-i)*Math.PI/6
-        ctx.arc(circ3CenterX + smallCircRad * 0.875*Math.cos(angle), circ3CenterY +  smallCircRad * 0.875*Math.sin(angle), 6, 0, 2 * Math.PI);
+        let angle = -Math.PI*circ3Angle - (1 - i) * Math.PI / 6
+        ctx.arc(circ3CenterX + smallCircRad * 0.875 * Math.cos(angle), circ3CenterY + smallCircRad * 0.875 * Math.sin(angle), 6, 0, 2 * Math.PI);
         ctx.fill();
         ctx.stroke();
     }
-    tick = (tick + 0.5) % 2160;
+    tick = (tick + 0.25) % 2160;
     window.requestAnimationFrame(drawGallifreyan);
 }
 
