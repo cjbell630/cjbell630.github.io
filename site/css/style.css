@@ -25,6 +25,9 @@ body {
     background-color: whitesmoke;
     color: grey;
     border-radius: 25px;
+    display: block;
+    position: relative;
+    z-index: 0;
 }
 
 #canvas {
@@ -32,6 +35,9 @@ body {
     width: 100%;
     height: 100%;
     margin: 0 auto;
+    position: absolute;
+    z-index: -100;
+
 }
 
 /* START LANGUAGE SWITCH */
