@@ -1,44 +1,22 @@
 body {
     background-color: black;
     color: white;
+    display: block;
 }
 
-html,
-body {
+html, body {
     display: flex;
     align-items: stretch;
     align-content: stretch;
     width: 100%;
     height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-.center {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-}
-
-.round_box {
-    background-color: whitesmoke;
-    color: grey;
-    border-radius: 25px;
-    display: block;
-    position: relative;
-    z-index: 0;
+    margin:0;
+    padding:0;
 }
 
 #canvas {
-    display: block;
-    width: 100%;
     height: 100%;
-    margin: 0 auto;
-    position: absolute;
-    z-index: -100;
+    width: 100%;
 
 }
 
@@ -92,19 +70,60 @@ body {
 
 /* BOX ANIMATION */
 .expanding-box {
+    position: absolute;
     width: 100%;
     height: 100%;
-    outline: white solid thick;
-    animation-name: example;
-    animation-duration: 1s;
-    position:absolute;
     top: 0%;
     left: 0%;
+    outline: white solid thick;
+    visibility: hidden;
+    animation-name: box-expand;
+    animation-delay: 1s;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    border-radius: 25px;
 }
 
-@keyframes example {
-    0%   {width: 1%; height: 1%; top: 50%; left: 50%;}
-    40%   {width: 100%; height: 1%;top: 50%; left: 0%;}
-    100%   {width: 100%; height: 100%;top: 0%; left: 0%;}
+@keyframes box-expand {
+    0% {
+        width: 1%;
+        height: 1%;
+        top: 50%;
+        left: 50%;
+        visibility: visible;
+    }
+    40% {
+        width: 100%;
+        height: 1%;
+        top: 50%;
+        left: 0%;
+        visibility: visible;
+    }
+    100% {
+        width: 100%;
+        height: 100%;
+        top: 0%;
+        left: 0%;
+        visibility: visible;
+    }
 }
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.expanding-box > * {
+    opacity: 0;
+    animation-name: fade-in;
+    animation-duration: 0.5s;
+    animation-delay: 2s;
+    animation-fill-mode: forwards;
+}
+
 /* END BOX ANIMATION */

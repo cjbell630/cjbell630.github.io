@@ -18,17 +18,26 @@ let chunkSpeed;
 let smallCircRad;
 
 let tinyCircRad;
+let dotRad;
+let strokeWidth;
 
 function recalculate() {
     canvasCenterX = canvas.width / 2;
     canvasCenterY = canvas.height / 2;
-    outerRad = canvasCenterY * 0.9;
-    innerRad = canvasCenterY * 0.7;
+
+    // outer diam should be at max 50% of the width
+    // 60w =
+    // inner rad = 7/9 outer rad
+    outerRad = Math.min(canvasCenterY * 0.9, canvas.width * 0.25);
+    // innerRad = canvasCenterY * 0.7;
+    innerRad = outerRad * 7 / 9;
     chunkDist = Math.sin(19 * Math.PI / 36) * innerRad / Math.sin(13 * Math.PI / 36);
-    chunkRad = canvasCenterY * 0.7 * Math.sin(Math.PI / 9) / Math.sin(13 * Math.PI / 36);
+    chunkRad = innerRad * Math.sin(Math.PI / 9) / Math.sin(13 * Math.PI / 36);
     chunkSpeed = 1 / 200;
     smallCircRad = innerRad + chunkRad - chunkDist;
     tinyCircRad = smallCircRad / 4;
+    dotRad = tinyCircRad * 5 / 22
+    strokeWidth = tinyCircRad * 5 / 22;
 }
 
 /**
@@ -44,8 +53,8 @@ function fix_dpi() {
     let style_width = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
 
     //scale the canvas
-    canvas.setAttribute('height', style_height * dpi);
-    canvas.setAttribute('width', style_width * dpi);
+    canvas.setAttribute('height', style_height / dpi);
+    canvas.setAttribute('width', style_width / dpi);
 }
 
 class OrbitingCircle {
@@ -97,12 +106,12 @@ console.log(loopTicks);
 function drawGallifreyan() {
     // based on https://stackoverflow.com/questions/36558928/timing-in-html5-canvas
     //console.log("frame");
-    fix_dpi();
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.strokeStyle = "#ffffff"
     ctx.fillStyle = "#ffffff";
-    ctx.lineWidth = 5;
+    ctx.lineWidth = strokeWidth;
     ctx.beginPath();
 
     // draw outer ring
@@ -158,7 +167,7 @@ function drawGallifreyan() {
     for (let i = 0; i < 3; i++) {
         ctx.beginPath();
         let angle = chunkAngle - (1 - i) * Math.PI / 6;
-        ctx.arc(chunkCenterX + chunkRad * 0.875 * Math.cos(angle), chunkCenterY + chunkRad * 0.875 * Math.sin(angle), 6, 0, 2 * Math.PI);
+        ctx.arc(chunkCenterX + chunkRad * 0.875 * Math.cos(angle), chunkCenterY + chunkRad * 0.875 * Math.sin(angle), dotRad, 0, 2 * Math.PI);
         ctx.fill();
         ctx.stroke();
     }
@@ -166,13 +175,24 @@ function drawGallifreyan() {
     for (let i = 0; i < 2; i++) {
         ctx.beginPath();
         let angle = circ3.rotation - (1 - i) * Math.PI / 6;
-        ctx.arc(circ3.centerX + smallCircRad * 0.875 * Math.cos(angle), circ3.centerY + smallCircRad * 0.875 * Math.sin(angle), 6, 0, 2 * Math.PI);
+        ctx.arc(circ3.centerX + smallCircRad * 0.875 * Math.cos(angle), circ3.centerY + smallCircRad * 0.875 * Math.sin(angle), dotRad, 0, 2 * Math.PI);
         ctx.fill();
         ctx.stroke();
     }
     tick = (tick + 1) % loopTicks; // TODO need to check loop
     window.requestAnimationFrame(drawGallifreyan);
+
 }
 
+window.addEventListener('resize', resizeCanvas, false);
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    recalculate();
+    window.requestAnimationFrame(drawGallifreyan);
+}
+
+resizeCanvas();
 recalculate();
 window.requestAnimationFrame(drawGallifreyan);
