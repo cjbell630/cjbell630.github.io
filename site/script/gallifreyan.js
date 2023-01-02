@@ -5,19 +5,31 @@ let ctx = canvas.getContext("2d");
 //get DPI
 
 fix_dpi();
-let canvasCenterX = canvas.width / 2;
-let canvasCenterY = canvas.height / 2;
+let canvasCenterX;
+let canvasCenterY;
 
-let outerRad = canvasCenterY * 0.9;
-let innerRad = canvasCenterY * 0.7;
+let outerRad;
+let innerRad;
 
-let chunkDist = Math.sin(19 * Math.PI / 36) * innerRad / Math.sin(13 * Math.PI / 36);
-let chunkRad = canvasCenterY * 0.7 * Math.sin(Math.PI / 9) / Math.sin(13 * Math.PI / 36);
-let chunkSpeed = 1 / 200;
+let chunkDist;
+let chunkRad;
+let chunkSpeed;
 
-let smallCircRad = innerRad + chunkRad - chunkDist;
+let smallCircRad;
 
-let tinyCircRad = smallCircRad / 4;
+let tinyCircRad;
+
+function recalculate() {
+    canvasCenterX = canvas.width / 2;
+    canvasCenterY = canvas.height / 2;
+    outerRad = canvasCenterY * 0.9;
+    innerRad = canvasCenterY * 0.7;
+    chunkDist = Math.sin(19 * Math.PI / 36) * innerRad / Math.sin(13 * Math.PI / 36);
+    chunkRad = canvasCenterY * 0.7 * Math.sin(Math.PI / 9) / Math.sin(13 * Math.PI / 36);
+    chunkSpeed = 1 / 200;
+    smallCircRad = innerRad + chunkRad - chunkDist;
+    tinyCircRad = smallCircRad / 4;
+}
 
 /**
  * https://codepen.io/jacquelinclem/pen/mdJONg
@@ -145,7 +157,7 @@ function drawGallifreyan() {
     // draw dots in chunk interior
     for (let i = 0; i < 3; i++) {
         ctx.beginPath();
-        let angle = chunkAngle - (1 - i) * Math.PI / 6
+        let angle = chunkAngle - (1 - i) * Math.PI / 6;
         ctx.arc(chunkCenterX + chunkRad * 0.875 * Math.cos(angle), chunkCenterY + chunkRad * 0.875 * Math.sin(angle), 6, 0, 2 * Math.PI);
         ctx.fill();
         ctx.stroke();
@@ -153,7 +165,7 @@ function drawGallifreyan() {
     // draw dots in circle3 interior
     for (let i = 0; i < 2; i++) {
         ctx.beginPath();
-        let angle = circ3.rotation - (1 - i) * Math.PI / 6
+        let angle = circ3.rotation - (1 - i) * Math.PI / 6;
         ctx.arc(circ3.centerX + smallCircRad * 0.875 * Math.cos(angle), circ3.centerY + smallCircRad * 0.875 * Math.sin(angle), 6, 0, 2 * Math.PI);
         ctx.fill();
         ctx.stroke();
@@ -162,5 +174,5 @@ function drawGallifreyan() {
     window.requestAnimationFrame(drawGallifreyan);
 }
 
-
+recalculate();
 window.requestAnimationFrame(drawGallifreyan);
