@@ -1,6 +1,8 @@
 let tick = 0;
 let canvas = document.getElementById("bg-canvas");
 let ctx = canvas.getContext("2d");
+let leftBox = document.getElementById("left-box");
+let rightBox = document.getElementById("right-box");
 
 //get DPI
 
@@ -28,7 +30,28 @@ function recalculate() {
     // outer diam should be at max 50% of the width
     // 60w =
     // inner rad = 7/9 outer rad
-    outerRad = Math.min(canvasCenterY * 0.9, canvas.width * 0.25);
+    if (canvas.width > canvas.height) {
+        leftBox.style.width = "20vw";
+        rightBox.style.width = "20vw";
+        leftBox.style.height = "80vh";
+        rightBox.style.height = "80vh";
+        leftBox.style.left = "2.5vw";
+        rightBox.style.left = "77.5vw";
+        leftBox.style.top = "10vh";
+        rightBox.style.top = "10vh";
+        outerRad = Math.min(canvasCenterY * 0.9, canvas.width * 0.25);
+    } else {
+        leftBox.style.width = "80vw";
+        rightBox.style.width = "80vw";
+        leftBox.style.height = "20vh";
+        rightBox.style.height = "20vh";
+        leftBox.style.left = "10vw";
+        rightBox.style.left = "10vw";
+        leftBox.style.top = "2.5vh";
+        rightBox.style.top = "77.5vh";
+
+        outerRad = Math.min(canvasCenterX * 0.9, canvas.height * 0.25);
+    }
     // innerRad = canvasCenterY * 0.7;
     innerRad = outerRad * 7 / 9;
     chunkDist = Math.sin(19 * Math.PI / 36) * innerRad / Math.sin(13 * Math.PI / 36);
@@ -181,18 +204,16 @@ function drawGallifreyan() {
     }
     tick = (tick + 1) % loopTicks; // TODO need to check loop
     window.requestAnimationFrame(drawGallifreyan);
-
 }
 
 window.addEventListener('resize', resizeCanvas, false);
 
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
+    canvas.width = window.visualViewport.width;
     canvas.height = window.innerHeight;
     recalculate();
-    window.requestAnimationFrame(drawGallifreyan);
 }
 
 resizeCanvas();
-recalculate();
 window.requestAnimationFrame(drawGallifreyan);
+resizeCanvas();
