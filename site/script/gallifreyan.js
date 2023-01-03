@@ -6,22 +6,8 @@ let rightBox = document.getElementById("right-box");
 
 //get DPI
 
-fix_dpi();
-let canvasCenterX;
-let canvasCenterY;
-
-let outerRad;
-let innerRad;
-
-let chunkDist;
-let chunkRad;
-let chunkSpeed;
-
-let smallCircRad;
-
-let tinyCircRad;
-let dotRad;
-let strokeWidth;
+// fix_dpi();
+let canvasCenterX, canvasCenterY, outerRad, innerRad, chunkDist, chunkRad, chunkSpeed, smallCircRad, tinyCircRad, dotRad, strokeWidth;
 
 function recalculate() {
     canvasCenterX = canvas.width / 2;
@@ -30,6 +16,7 @@ function recalculate() {
     // outer diam should be at max 50% of the width
     // 60w =
     // inner rad = 7/9 outer rad
+    // TODO clean this up it looks stupid
     if (canvas.width > canvas.height) {
         leftBox.style.width = "20vw";
         rightBox.style.width = "20vw";
@@ -39,6 +26,7 @@ function recalculate() {
         rightBox.style.left = "77.5vw";
         leftBox.style.top = "10vh";
         rightBox.style.top = "10vh";
+
         outerRad = Math.min(canvasCenterY * 0.9, canvas.width * 0.25);
     } else {
         leftBox.style.width = "80vw";
@@ -52,6 +40,7 @@ function recalculate() {
 
         outerRad = Math.min(canvasCenterX * 0.9, canvas.height * 0.25);
     }
+    // TODO too much magic number
     // innerRad = canvasCenterY * 0.7;
     innerRad = outerRad * 7 / 9;
     chunkDist = Math.sin(19 * Math.PI / 36) * innerRad / Math.sin(13 * Math.PI / 36);
@@ -61,23 +50,6 @@ function recalculate() {
     tinyCircRad = smallCircRad / 4;
     dotRad = tinyCircRad * 5 / 22
     strokeWidth = tinyCircRad * 5 / 22;
-}
-
-/**
- * https://codepen.io/jacquelinclem/pen/mdJONg
- */
-function fix_dpi() {
-    let dpi = window.devicePixelRatio || 1;
-    ctx.scale(dpi, dpi);
-    //get CSS height
-    //the + prefix casts it to an integer?
-    //the slice method gets rid of "px"
-    let style_height = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
-    let style_width = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
-
-    //scale the canvas
-    canvas.setAttribute('height', style_height / dpi);
-    canvas.setAttribute('width', style_width / dpi);
 }
 
 class OrbitingCircle {
@@ -216,4 +188,4 @@ function resizeCanvas() {
 
 resizeCanvas();
 window.requestAnimationFrame(drawGallifreyan);
-resizeCanvas();
+resizeCanvas(); // do this again bc if not issues happen on mobile
