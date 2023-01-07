@@ -24,7 +24,9 @@ function recalculateCanvas() {
     // TODO too much magic number
     // innerRad = canvasCenterY * 0.7;
     innerRad = outerRad * 7 / 9;
-    chunkDist = Math.sin(19 * Math.PI / 36) * innerRad / Math.sin(13 * Math.PI / 36);
+    // old version below; changed to make look better but never verified math (sin(18pi/36) -> 1 so removed)
+    // chunkDist = Math.sin(19 * Math.PI / 36) * innerRad / Math.sin(13 * Math.PI / 36);
+    chunkDist = innerRad / Math.sin(13 * Math.PI / 36);
     chunkRad = innerRad * Math.sin(Math.PI / 9) / Math.sin(13 * Math.PI / 36);
     chunkSpeed = 1 / 200;
     smallCircRad = innerRad + chunkRad - chunkDist;
