@@ -5,7 +5,8 @@ let ctx = canvas.getContext("2d");
 //get DPI
 
 // fix_dpi();
-let canvasCenterX, canvasCenterY, outerRad, innerRad, chunkDist, chunkRad, chunkSpeed, smallCircRad, tinyCircRad, dotRad, strokeWidth;
+let canvasCenterX, canvasCenterY, outerRad, innerRad, chunkDist, chunkRad, chunkSpeed, smallCircRad, tinyCircRad,
+    dotRad, strokeWidth;
 
 function recalculateCanvas() {
     canvasCenterX = canvas.width / 2;

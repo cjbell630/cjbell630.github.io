@@ -1,6 +1,7 @@
 function screenIsVertical() {
     return (window.innerHeight > window.innerWidth);
 }
+
 function gcd(a, b) {
     if (b == 0) {
         return a;
