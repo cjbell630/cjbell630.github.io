@@ -1,15 +1,13 @@
 let tick = 0;
 let canvas = document.getElementById("bg-canvas");
 let ctx = canvas.getContext("2d");
-let leftBox = document.getElementById("left-box");
-let rightBox = document.getElementById("right-box");
 
 //get DPI
 
 // fix_dpi();
 let canvasCenterX, canvasCenterY, outerRad, innerRad, chunkDist, chunkRad, chunkSpeed, smallCircRad, tinyCircRad, dotRad, strokeWidth;
 
-function recalculate() {
+function recalculateCanvas() {
     canvasCenterX = canvas.width / 2;
     canvasCenterY = canvas.height / 2;
 
@@ -17,28 +15,10 @@ function recalculate() {
     // 60w =
     // inner rad = 7/9 outer rad
     // TODO clean this up it looks stupid
-    if (canvas.width > canvas.height) {
-        leftBox.style.width = "20vw";
-        rightBox.style.width = "20vw";
-        leftBox.style.height = "80vh";
-        rightBox.style.height = "80vh";
-        leftBox.style.left = "2.5vw";
-        rightBox.style.left = "77.5vw";
-        leftBox.style.top = "10vh";
-        rightBox.style.top = "10vh";
-
-        outerRad = Math.min(canvasCenterY * 0.9, canvas.width * 0.25);
-    } else {
-        leftBox.style.width = "80vw";
-        rightBox.style.width = "80vw";
-        leftBox.style.height = "20vh";
-        rightBox.style.height = "20vh";
-        leftBox.style.left = "10vw";
-        rightBox.style.left = "10vw";
-        leftBox.style.top = "2.5vh";
-        rightBox.style.top = "77.5vh";
-
+    if (screenIsVertical()) {
         outerRad = Math.min(canvasCenterX * 0.9, canvas.height * 0.25);
+    } else {
+        outerRad = Math.min(canvasCenterY * 0.9, canvas.width * 0.25);
     }
     // TODO too much magic number
     // innerRad = canvasCenterY * 0.7;
@@ -79,16 +59,6 @@ let circ1 = new OrbitingCircle(0, 0.5, 1 / 160);
 let circ2 = new OrbitingCircle(0, 0, -1 / 120);
 let circ3 = new OrbitingCircle(0, 1.5, 1 / 180);
 
-function gcd(a, b) {
-    if (b == 0) {
-        return a;
-    }
-    return gcd(b, a % b);
-}
-
-function lcm(a, b) {
-    return a * b / gcd(a, b);
-}
 
 // NOTE should always be a whole number
 // last *7 part derived from 2*bigRad/smallRad expanded to remove decimal numbers
@@ -183,7 +153,7 @@ window.addEventListener('resize', resizeCanvas, false);
 function resizeCanvas() {
     canvas.width = window.visualViewport.width;
     canvas.height = window.innerHeight;
-    recalculate();
+    recalculateCanvas();
 }
 
 resizeCanvas();
