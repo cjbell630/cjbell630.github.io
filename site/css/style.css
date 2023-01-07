@@ -30,34 +30,33 @@ html, body {
 
 .switch {
     display: inline-block;
-    width: 120px;
-    height: 68px;
+    width: 6vw;
+    height: 3.5vw;
     position: relative;
-}
-
-.toggle-thumb {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #475569;
+    background-color: #094b66;
     border-radius: 80px;
     cursor: pointer;
+    margin: 0;
+    padding: 0;
+    color: white;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
 
-.toggle-thumb:before {
+.toggle {
     content: "";
-    height: 52px;
-    width: 52px;
+    height: 2.5vw;
+    width: 2.5vw;
+    font-size: 2.5vw !important;
+    color: skyblue;
     position: absolute;
-    left: 60px;
-    bottom: 8px;
+    left: 50%;
+    top: 12.5%;
     border-radius: 50%;
-    background-color: #E2E8F0;
+    background-color: black;
     transition: .4s all ease;
 }
 
@@ -67,8 +66,8 @@ html, body {
     height: 0;
 }
 
-.checkbox:checked + .toggle-thumb:before {
-    transform: translateX(-52px);
+.checkbox:checked + .toggle {
+    transform: translateX(-100%);
 }
 
 /* END LANGUAGE SWITCH */

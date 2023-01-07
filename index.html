@@ -6,21 +6,21 @@
         <link rel="stylesheet" href="site/css/style.css">
         <link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Noto Sans JP' rel='stylesheet'>
-        <script src="https://kit.fontawesome.com/1baf1c0c3b.js" crossorigin="anonymous"></script>
         <script src="https://apis.google.com/js/platform.js"></script>
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
     </head>
+
     <body>
         <canvas id="bg-canvas"></canvas>
 
         <label class="switch" style="position: absolute; top:1vh; right:1vw;">
             <!--https://dev.to/devggaurav/let-s-create-a-custom-toggle-switch-using-html-and-css-33df-->
-            <input type="checkbox" class="checkbox" onchange="languageToggle(this)">
-            <span class="toggle-thumb">
-                <a style="font-size:19px; padding-left:9px;fill:#4ADE80;-ms-filter:">ENG</a>
-                <a style="font-size:15px; padding-right:9px; fill:#F87171; -ms-filter:">日本語</a>
-            </span>
+            <a style="position:absolute; font-size:1vw; left:10%;top:25%;">ENG</a>
+            <a style="position:absolute; font-size:0.7vw; right:10%;top:33%;">日本語</a>
+            <input type="checkbox" class="checkbox" onchange="languageToggle(this)" id="lang-checkbox">
+            <span class="material-symbols-outlined toggle">language</span>
         </label>
-
 
         <div id="left-box" style="position: absolute; width: 20vw; height: 80vh; left:2.5vw; top: 10vh;">
             <div class="expanding-box">
@@ -36,16 +36,15 @@
                 </div>
             </div>
         </div>
+
         <div id="right-box" style="position: absolute; width: 20vw; height: 80vh; left:77.5vw; top: 10vh;">
             <div class="expanding-box">
             </div>
         </div>
     </body>
+
     <script src="./site/script/util.js"></script>
     <script src="./site/lang/language.js"></script>
     <script src="./site/script/gallifreyan.js"></script>
     <script src="./site/script/interaction.js"></script>
-    <script>
-
-    </script>
 </html>

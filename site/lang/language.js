@@ -10,17 +10,29 @@ const languages = {
         "YT-CHANNEL": "翻訳チャンネル"
     }
 }
-let language = "en-US";
+
+let language = getCompatibleLanguage(navigator.language);
+document.documentElement.setAttribute('lang', language);
+
+function getCompatibleLanguage(langString) {
+    return langString.startsWith("ja") ? "ja-JP" : "en-US";
+}
 
 function updateText() {
-    document.querySelectorAll("[data-text]").forEach( function (element) {
+    document.querySelectorAll("[data-text]").forEach(function (element) {
         element.innerHTML = languages[language][element.dataset.text];
     });
 }
 
 function setLanguage(lang) {
-    language = lang;
+    language = getCompatibleLanguage(lang);
+    document.documentElement.setAttribute('lang', language);
     updateText();
+}
+
+{
+    let checkbox = document.getElementById("lang-checkbox");
+    checkbox.checked = language === "ja-JP";
 }
 
 updateText();

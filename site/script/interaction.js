@@ -1,5 +1,6 @@
 let leftBox = document.getElementById("left-box");
 let rightBox = document.getElementById("right-box");
+
 // let canvas = document.getElementById("bg-canvas"); already defined in gallifreyan.js
 
 function resizeBoxes() {
@@ -40,6 +41,6 @@ function bruh() {
     leftBox.style.animationFillMode = "forwards";
 }
 
-function languageToggle(checkbox){
+function languageToggle(checkbox) {
     setLanguage(checkbox.checked ? "ja-JP" : "en-US");
 }
