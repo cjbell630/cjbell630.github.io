@@ -2,12 +2,22 @@ const languages = {
     "en-US": {
         "NAME": "Connor Bell",
         "LINKS": "My Links",
-        "YT-CHANNEL": "Japanese Translation"
+        "YT-CHANNEL": "Japanese Translation",
+        "PROJECTS": "Projects",
+        "JUGA-BOT": "JUGA Bot",
+        "JUGA-BOT-DESC": "A Discord bot for the Japanese UGA server.",
+        "FNAF-ADVANCE": "FNaF Advance",
+        "FNAF-ADVANCE-DESC": "A Game Boy Advance port of the game Five Nights at Freddy's."
     },
     "ja-JP": {
         "NAME": "コナー ・ ベル",
         "LINKS": "リンク",
-        "YT-CHANNEL": "翻訳チャンネル"
+        "YT-CHANNEL": "翻訳チャンネル",
+        "PROJECTS": "プロジェクト",
+        "JUGA-BOT": "JUGAボット",
+        "JUGA-BOT-DESC": "ジョージア大学の日本語サークルのDiscordサーバーのためのボット。",
+        "FNAF-ADVANCE": "FNaFアドバンス",
+        "FNAF-ADVANCE-DESC": "「Five Nights at Freddy's」というゲームのゲームボーイアドバンス移植版。"
     }
 }
 

@@ -157,3 +157,13 @@ html, body {
 }
 
 /* END BOX ANIMATION */
+
+.project
+{
+}
+
+.project > .row {
+
+    display: flex;
+    align-items: center;
+}

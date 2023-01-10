@@ -14,6 +14,7 @@
     <body>
         <canvas id="bg-canvas"></canvas>
 
+        <h1 data-text="NAME" style="position: absolute; top:1vh; left:1vw;"></h1>
         <label class="switch" style="position: absolute; top:1vh; right:1vw;">
             <!--https://dev.to/devggaurav/let-s-create-a-custom-toggle-switch-using-html-and-css-33df-->
             <a style="position:absolute; font-size:1vw; left:10%;top:25%;">ENG</a>
@@ -24,8 +25,7 @@
 
         <div id="left-box" style="position: absolute; width: 20vw; height: 80vh; left:2.5vw; top: 10vh;">
             <div class="expanding-box">
-                <h1 data-text="NAME">Connor Bell</h1>
-                <h2 data-text="LINKS">My Links</h2>
+                <h1 data-text="LINKS"></h1>
                 <div style="margin:3%">
                     <div data-text="YT-CHANNEL" style="margin-top: 3.5%; display: inline-block" onclick="bruh()"></div>
                     <div class="link-box" style="float: right;display: inline-block">
@@ -38,13 +38,23 @@
         </div>
 
         <div id="right-box" style="position: absolute; width: 20vw; height: 80vh; left:77.5vw; top: 10vh;">
-            <div class="expanding-box">
+            <div class="expanding-box" id="right-box-inside">
+                <h1 data-text="PROJECTS"></h1>
+                <hr>
             </div>
         </div>
     </body>
 
     <script src="./site/script/util.js"></script>
-    <script src="./site/lang/language.js"></script>
     <script src="./site/script/gallifreyan.js"></script>
+    <script src="./site/script/projects.js"></script>
     <script src="./site/script/interaction.js"></script>
+    <script>
+        let gaming = document.getElementById("right-box-inside");
+        projects.forEach(function(project) {
+           gaming.innerHTML += project.generateHTML();
+        });
+
+    </script>
+    <script src="./site/lang/language.js"></script>
 </html>
