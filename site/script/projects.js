@@ -43,7 +43,7 @@ class Project {
 </div>
 
 <div class="row">
-<img style="padding-left: 1em;" src="${this.image}" alt="${this.nameID} image">
+<img style="padding-left: 1em; height:4em;" src="${this.image}" alt="${this.nameID} image">
 <div>
 <p style="padding-right: 1em; padding-left: 1em;margin-top:0;margin-bottom:0;" data-text="${this.descriptionID}"></p></div>
 </div></div><hr>`;
@@ -53,15 +53,15 @@ class Project {
 
 const projects = [
     new Project("JUGA-BOT", "JUGA-BOT-DESC",
-        [Languages.Python], "google.com", "https://i.imgur.com/0Z0Z0Z0.png"
+        [Languages.Python], "google.com", "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
     ),
     new Project("FNAF-ADVANCE", "FNAF-ADVANCE-DESC",
-        [Languages.C], "google.com", "https://i.imgur.com/0Z0Z0Z0.png"
+        [Languages.C], "google.com", "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
     ),
     new Project("TALL-INFINITY-HD", "TALL-INFINITY-HD-DESC",
-        [Languages.CS, Languages.Blender, Languages.Unity ], "google.com", "https://i.imgur.com/0Z0Z0Z0.png"
+        [Languages.CS, Languages.Blender, Languages.Unity ], "google.com", "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
     ),
-    new Project("TALL-INFINITY-HD", "TALL-INFINITY-HD-DESC",
-        [Languages.C], "google.com", "https://i.imgur.com/0Z0Z0Z0.png"
+    new Project("YOSHI", "YOSHI-DESC",
+        [Languages.Lua], "google.com", "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
     ),
 ];
