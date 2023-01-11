@@ -37,11 +37,13 @@ function getCompatibleLanguage(langString) {
 }
 
 function updateText(documentToUse = document) {
-    console.log("brurtyuh");
+    // update text for elements in this page
     documentToUse.querySelectorAll("[data-text]").forEach(function (element) {
         element.innerHTML = languages[language][element.dataset.text];
     });
-    documentToUse.querySelectorAll("iframe").forEach(function (element) {
+
+    // update text for all elements in all CUSTOM iframes in this page
+    documentToUse.querySelectorAll(".same-origin-iframe").forEach(function (element) {
         updateText(element.contentWindow.document);
     });
 }

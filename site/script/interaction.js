@@ -79,9 +79,24 @@ function selectProject(element) {
     element.style.background = "#202020";
 
     let detailsIframe = document.getElementById("details-iframe");
-    //detailsIframe.src = element.getAttribute("data-details");
-    detailsIframe.src = "./site/iframes/test.html";
+
+    // fade out to prevent flashing when reloading
+    detailsIframe.style.animation = "fade-out 0.25s";
+    detailsIframe.style.animationFillMode = "forwards";
+
+    // set the frame to change source only after completely faded out, to make sure flashing isn't seen
+    // TODO could prob make this only set once
+    detailsIframe.onanimationend = function (event) {
+        // make sure this only happens for the fade out animation
+        if (event.animationName === "fade-out") {
+            detailsIframe.src = `./site/iframes/${element.dataset.name}.html`;
+        }
+    }
+
+    // fade in once the page is loaded
     detailsIframe.onload = function () {
+        detailsIframe.style.animation = "fade-in 0.25s";
+        detailsIframe.style.animationFillMode = "forwards";
         updateText(detailsIframe.contentWindow.document);
     };
 

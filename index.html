@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="background: black">
     <head>
         <meta charset="UTF-8">
         <title>Connor Bell GitHub</title>
@@ -44,7 +44,8 @@
                 <div style="display: flex">
                     <div class="content-box" id="project-box"></div>
                     <div class="content-box details-box" id="details-box" hidden="hidden">
-                        <iframe style="width:100%;height:100%;border:0" id="details-iframe" sandbox="allow-scripts allow-same-origin allow-modal"></iframe>
+                        <iframe style="width:100%;height:100%;border:0" id="details-iframe" class="same-origin-iframe"
+                                sandbox="allow-scripts allow-same-origin" allowTransparency="true"></iframe>
                     </div>
                 </div>
             </div>
@@ -55,12 +56,5 @@
     <script src="./site/script/gallifreyan.js"></script>
     <script src="./site/script/projects.js"></script>
     <script src="./site/script/interaction.js"></script>
-    <script>
-        let gaming = document.getElementById("project-box");
-        projects.forEach(function (project) {
-            gaming.innerHTML += project.generateHTML();
-        });
-
-    </script>
     <script src="./site/lang/language.js"></script>
 </html>

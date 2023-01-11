@@ -16,6 +16,7 @@ Languages = {
     Python: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg",
     Kotlin: "https://upload.wikimedia.org/wikipedia/commons/7/74/Kotlin-logo.svg",
 }
+
 class Project {
 
 
@@ -27,9 +28,9 @@ class Project {
         this.image = image;
     }
 
-    getLanguagesHTML(){
+    getLanguagesHTML() {
         let html = "";
-        this.languages.forEach(function(language){
+        this.languages.forEach(function (language) {
             html += `<img style=" height:2em; padding-right: 0.5em;margin-left: auto;" src="${language}">`;
         });
         return html;
@@ -59,7 +60,7 @@ const projects = [
         [Languages.C], "google.com", "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
     ),
     new Project("TALL-INFINITY-HD", "TALL-INFINITY-HD-DESC",
-        [Languages.CS, Languages.Blender, Languages.Unity ], "google.com", "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+        [Languages.CS, Languages.Blender, Languages.Unity], "google.com", "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
     ),
     new Project("YOSHI", "YOSHI-DESC",
         [Languages.Lua], "google.com", "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
@@ -71,3 +72,11 @@ const projects = [
         [Languages.Lua], "google.com", "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
     ),
 ];
+
+
+let projectBox = document.getElementById("project-box");
+//TODO I wanted to put this in onload but it looks like it was already loaded by the time this script ran -
+// make sure it works on slow browsers
+projects.forEach(function (project) {
+    projectBox.innerHTML += project.generateHTML();
+});
