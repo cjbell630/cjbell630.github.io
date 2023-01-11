@@ -43,31 +43,48 @@ function bruh() {
     leftBox.style.animationFillMode = "forwards";
 }
 
-function expandRightBox(){
-    console.log("bruh");
+function expandRightBox() {
+    // hide canvas
     canvas.style.animation = "fade-out 0.25s";
     canvas.style.animationFillMode = "forwards";
+
+    // hide left box
     leftBox.style.animation = "fade-out 0.5s";
     leftBox.style.animationFillMode = "forwards";
+
+    // expand right box
     rightBox.style.animation = `box-full-${screenIsVertical() ? "vert" : "horiz"} 1s`;
     rightBox.style.animationFillMode = "forwards";
+
+    // remove rounded edges of bottom right of project box
     let projectBox = document.getElementById("project-box");
     projectBox.style.borderBottomRightRadius = "0";
 
+    // show details box, remove rounded edge from bottom left, and give border (could do last 2 at page load)
     let detailsBox = document.getElementById("details-box");
     detailsBox.hidden = false;
     detailsBox.style.borderBottomLeftRadius = "0";
     detailsBox.style.borderLeft = "2px solid white";
+    detailsBox.style.animation = "details-box-widen 1s";
+    detailsBox.style.animationFillMode = "forwards";
 }
 
 function selectProject(element) {
     if (!boxExpanded) {
         expandRightBox();
     }
-    document.querySelectorAll(".project").forEach(function(project){
+    document.querySelectorAll(".project").forEach(function (project) {
         project.style.background = "black";
     });
     element.style.background = "#202020";
+
+    let detailsIframe = document.getElementById("details-iframe");
+    //detailsIframe.src = element.getAttribute("data-details");
+    detailsIframe.src = "./site/iframes/test.html";
+    detailsIframe.onload = function () {
+        updateText(detailsIframe.contentWindow.document);
+    };
+
 }
 
 function languageToggle(checkbox) {

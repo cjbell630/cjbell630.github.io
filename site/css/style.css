@@ -169,6 +169,7 @@ html, body {
     overflow-y: scroll;
     -ms-overflow-style: none; /* Internet Explorer 10+ */
     scrollbar-width: none; /* Firefox */
+    transition: all 3s ease;
 }
 
 .content-box::-webkit-scrollbar {
@@ -186,7 +187,7 @@ html, body {
 }
 
 .project:hover {
-    background: #202020!important;
+    background: #202020 !important;
     cursor: pointer;
 }
 
@@ -197,4 +198,17 @@ html, body {
 .content-box > hr {
     margin-top: 0;
     margin-bottom: 0;
+}
+
+.details-box {
+    left: 20vw;
+    width: 0;
+    animation-fill-mode: forwards;
+}
+
+@keyframes details-box-widen {
+    100% {
+        width: 74.9vw;
+        visibility: visible;
+    }
 }
