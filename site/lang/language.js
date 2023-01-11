@@ -7,7 +7,9 @@ const languages = {
         "JUGA-BOT": "JUGA Bot",
         "JUGA-BOT-DESC": "A Discord bot for the Japanese UGA server.",
         "FNAF-ADVANCE": "FNaF Advance",
-        "FNAF-ADVANCE-DESC": "A Game Boy Advance port of the game Five Nights at Freddy's."
+        "FNAF-ADVANCE-DESC": "A Game Boy Advance port of the game Five Nights at Freddy's.",
+        "TALL-INFINITY-HD": "Tall Infinity HD",
+        "TALL-INFINITY-HD-DESC": "A Unity remake of the PlayStation 1 puzzle game \"Tall Infinity\".",
     },
     "ja-JP": {
         "NAME": "コナー ・ ベル",
@@ -17,7 +19,9 @@ const languages = {
         "JUGA-BOT": "JUGAボット",
         "JUGA-BOT-DESC": "ジョージア大学の日本語サークルのDiscordサーバーのためのボット。",
         "FNAF-ADVANCE": "FNaFアドバンス",
-        "FNAF-ADVANCE-DESC": "「Five Nights at Freddy's」というゲームのゲームボーイアドバンス移植版。"
+        "FNAF-ADVANCE-DESC": "「Five Nights at Freddy's」というゲームのゲームボーイアドバンス移植版。",
+        "TALL-INFINITY-HD": "TALL∞HD",
+        "TALL-INFINITY-HD-DESC": "「TALL∞（トール・アンリミテッド）」というPlayStation1のパズルゲームのUnityリメイク。",
     }
 }
 

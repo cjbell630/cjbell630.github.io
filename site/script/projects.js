@@ -7,10 +7,10 @@ Languages = {
     HTML: "https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg",
     CSS: "https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg",
     PHP: "https://upload.wikimedia.org/wikipedia/commons/2/27/PHP-logo.svg",
-    CSharp: "https://upload.wikimedia.org/wikipedia/commons/0/0d/C_Sharp_wordmark.svg",
+    CS: "https://upload.wikimedia.org/wikipedia/commons/b/bd/Logo_C_sharp.svg",
     Ruby: "https://upload.wikimedia.org/wikipedia/commons/f/f1/Ruby_logo.svg",
     Rust: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Rust_programming_language_black_logo.svg",
-    Unity: "https://upload.wikimedia.org/wikipedia/commons/1/19/Unity_Technologies_logo.svg",
+    Unity: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Unity_2021.svg\" class=\"invert",
     Unreal: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Unreal_Engine_4_logo.svg",
     Blender: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Blender_logo_no_text.svg",
     Python: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg",
@@ -30,7 +30,7 @@ class Project {
     getLanguagesHTML(){
         let html = "";
         this.languages.forEach(function(language){
-            html += `<img style=" height:2em; padding-right: 1em;margin-left: auto;" src="${language}">`;
+            html += `<img style=" height:2em; padding-right: 0.5em;margin-left: auto;" src="${language}">`;
         });
         return html;
     }
@@ -39,13 +39,13 @@ class Project {
     generateHTML() {
         let html = `<div class="project">
 <div class="row">
-<h2 style="display: inline;margin-top:0;padding-left: 1em;margin-bottom:0.5em;" data-text="${this.nameID}"></h2><div style="margin-left: auto;">${this.getLanguagesHTML()}</div>
+<h2 style="display: inline;margin-top:0;padding-right: 0.75em;padding-left: 0.75em;margin-bottom:0.5em;" data-text="${this.nameID}"></h2><div style="margin-left: auto;">${this.getLanguagesHTML()}</div>
 </div>
 
 <div class="row">
 <img style="padding-left: 1em;" src="${this.image}" alt="${this.nameID} image">
 <div>
-<p style="padding-right: 1em; padding-left: 1em;" data-text="${this.descriptionID}"></p></div>
+<p style="padding-right: 1em; padding-left: 1em;margin-top:0;margin-bottom:0;" data-text="${this.descriptionID}"></p></div>
 </div></div><hr>`;
         return html;
     }
@@ -56,6 +56,12 @@ const projects = [
         [Languages.Python], "google.com", "https://i.imgur.com/0Z0Z0Z0.png"
     ),
     new Project("FNAF-ADVANCE", "FNAF-ADVANCE-DESC",
+        [Languages.C], "google.com", "https://i.imgur.com/0Z0Z0Z0.png"
+    ),
+    new Project("TALL-INFINITY-HD", "TALL-INFINITY-HD-DESC",
+        [Languages.CS, Languages.Blender, Languages.Unity ], "google.com", "https://i.imgur.com/0Z0Z0Z0.png"
+    ),
+    new Project("TALL-INFINITY-HD", "TALL-INFINITY-HD-DESC",
         [Languages.C], "google.com", "https://i.imgur.com/0Z0Z0Z0.png"
     ),
 ];

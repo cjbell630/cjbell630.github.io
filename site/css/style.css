@@ -88,6 +88,7 @@ html, body {
     border-radius: 25px;
 }
 
+
 @keyframes box-expand {
     0% {
         width: 1%;
@@ -158,6 +159,19 @@ html, body {
 
 /* END BOX ANIMATION */
 
+.content-box {
+    position: absolute;
+    width: 100%;
+    height: 86.7%;
+    border-radius: 25px;
+    overflow-y:scroll;
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+.content-box::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
+}
+
 .project
 {
 }
@@ -166,4 +180,8 @@ html, body {
 
     display: flex;
     align-items: center;
+}
+
+.invert {
+    filter: invert(100%)
 }

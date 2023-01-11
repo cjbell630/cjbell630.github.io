@@ -41,6 +41,7 @@
             <div class="expanding-box" id="right-box-inside">
                 <h1 data-text="PROJECTS"></h1>
                 <hr>
+                <div class="content-box" id="project-box"></div>
             </div>
         </div>
     </body>
@@ -50,7 +51,7 @@
     <script src="./site/script/projects.js"></script>
     <script src="./site/script/interaction.js"></script>
     <script>
-        let gaming = document.getElementById("right-box-inside");
+        let gaming = document.getElementById("project-box");
         projects.forEach(function(project) {
            gaming.innerHTML += project.generateHTML();
         });
