@@ -138,6 +138,7 @@ html, body {
         width: 95vw;
         height: 80vh;
         visibility: visible;
+        left: 2.5vw;
     }
 }
 
@@ -161,27 +162,39 @@ html, body {
 
 .content-box {
     position: absolute;
-    width: 100%;
-    height: 86.7%;
-    border-radius: 25px;
-    overflow-y:scroll;
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-    scrollbar-width: none;  /* Firefox */
-}
-.content-box::-webkit-scrollbar {
-    display: none;  /* Safari and Chrome */
+    width: 20vw;
+    height: 87.8%;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
 }
 
-.project
-{
+.content-box::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+}
+
+.project {
+    background: black;
+    transition: all 0.2s ease;
 }
 
 .project > .row {
-
     display: flex;
     align-items: center;
 }
 
+.project:hover {
+    background: #202020!important;
+    cursor: pointer;
+}
+
 .invert {
     filter: invert(100%)
+}
+
+.content-box > hr {
+    margin-top: 0;
+    margin-bottom: 0;
 }

@@ -37,7 +37,7 @@ class Project {
 
 
     generateHTML() {
-        let html = `<div class="project">
+        let html = `<div class="project" data-name="${this.nameID}" onclick="selectProject(this)">
 <div class="row">
 <h2 style="display: inline;margin-top:0;padding-right: 0.75em;padding-left: 0.75em;margin-bottom:0.5em;" data-text="${this.nameID}"></h2><div style="margin-left: auto;">${this.getLanguagesHTML()}</div>
 </div>
@@ -46,7 +46,7 @@ class Project {
 <img style="padding-left: 1em; height:4em;" src="${this.image}" alt="${this.nameID} image">
 <div>
 <p style="padding-right: 1em; padding-left: 1em;margin-top:0;margin-bottom:0;" data-text="${this.descriptionID}"></p></div>
-</div></div><hr>`;
+</div><br></div><hr>`;
         return html;
     }
 }
@@ -60,6 +60,12 @@ const projects = [
     ),
     new Project("TALL-INFINITY-HD", "TALL-INFINITY-HD-DESC",
         [Languages.CS, Languages.Blender, Languages.Unity ], "google.com", "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+    ),
+    new Project("YOSHI", "YOSHI-DESC",
+        [Languages.Lua], "google.com", "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+    ),
+    new Project("YOSHI", "YOSHI-DESC",
+        [Languages.Lua], "google.com", "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
     ),
     new Project("YOSHI", "YOSHI-DESC",
         [Languages.Lua], "google.com", "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"

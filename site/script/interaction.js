@@ -1,6 +1,8 @@
 let leftBox = document.getElementById("left-box");
 let rightBox = document.getElementById("right-box");
 
+let boxExpanded = false;
+
 // let canvas = document.getElementById("bg-canvas"); already defined in gallifreyan.js
 
 function resizeBoxes() {
@@ -39,6 +41,33 @@ function bruh() {
     rightBox.style.animationFillMode = "forwards";
     leftBox.style.animation = `box-full-${screenIsVertical() ? "vert" : "horiz"} 1s`;
     leftBox.style.animationFillMode = "forwards";
+}
+
+function expandRightBox(){
+    console.log("bruh");
+    canvas.style.animation = "fade-out 0.25s";
+    canvas.style.animationFillMode = "forwards";
+    leftBox.style.animation = "fade-out 0.5s";
+    leftBox.style.animationFillMode = "forwards";
+    rightBox.style.animation = `box-full-${screenIsVertical() ? "vert" : "horiz"} 1s`;
+    rightBox.style.animationFillMode = "forwards";
+    let projectBox = document.getElementById("project-box");
+    projectBox.style.borderBottomRightRadius = "0";
+
+    let detailsBox = document.getElementById("details-box");
+    detailsBox.hidden = false;
+    detailsBox.style.borderBottomLeftRadius = "0";
+    detailsBox.style.borderLeft = "2px solid white";
+}
+
+function selectProject(element) {
+    if (!boxExpanded) {
+        expandRightBox();
+    }
+    document.querySelectorAll(".project").forEach(function(project){
+        project.style.background = "black";
+    });
+    element.style.background = "#202020";
 }
 
 function languageToggle(checkbox) {
