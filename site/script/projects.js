@@ -31,24 +31,26 @@ class Project {
     getLanguagesHTML() {
         let html = "";
         this.languages.forEach(function (language) {
-            html += `<img style=" height:2em; padding-right: 0.5em;margin-left: auto;" src="${language}">`;
+            html += `<img style=" height:2em; padding-right: 0.5em;margin-left: auto;" src="${language}" alt="Language Logo">`;
         });
         return html;
     }
 
 
     generateHTML() {
-        let html = `<div class="project" data-name="${this.nameID}" onclick="selectProject(this)">
-<div class="row">
-<h2 style="display: inline;margin-top:0;padding-right: 0.75em;padding-left: 0.75em;margin-bottom:0.5em;" data-text="${this.nameID}"></h2><div style="margin-left: auto;">${this.getLanguagesHTML()}</div>
-</div>
-
-<div class="row">
-<img style="padding-left: 1em; height:4em;" src="${this.image}" alt="${this.nameID} image">
-<div>
-<p style="padding-right: 1em; padding-left: 1em;margin-top:0;margin-bottom:0;" data-text="${this.descriptionID}"></p></div>
-</div><br></div><hr>`;
-        return html;
+        return `<div class="project" data-name="${this.nameID}" onclick="selectProject(this)">
+                    <div class="row">
+                        <h2 style="display: inline;margin-top:0;padding-right: 0.75em;padding-left: 0.75em;margin-bottom:0.5em;" data-text="${this.nameID}"></h2>
+                        <div style="margin-left: auto;">${this.getLanguagesHTML()}</div>
+                    </div>
+    
+                    <div class="row">
+                        <img style="padding-left: 1em; height:4em;" src="${this.image}" alt="${this.nameID} image">
+                        <div>
+                            <p style="padding-right: 1em; padding-left: 1em;margin-top:0;margin-bottom:0;" data-text="${this.descriptionID}"></p>
+                        </div>
+                    </div><br>
+                </div><hr>`;
     }
 }
 
