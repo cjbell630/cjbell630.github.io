@@ -69,7 +69,7 @@ function expandRightBox() {
     detailsBox.style.animationFillMode = "forwards";
 }
 
-function selectProject(element) {
+function selectProject(element, updateURL = true) {
     if (!boxExpanded) {
         expandRightBox();
     }
@@ -100,8 +100,19 @@ function selectProject(element) {
         updateText(detailsIframe.contentWindow.document);
     };
 
+    if (updateURL) {
+        window.location.hash = element.dataset.name;
+    }
 }
 
 function languageToggle(checkbox) {
     setLanguage(checkbox.checked ? "ja-JP" : "en-US");
+}
+
+function checkURLHash() {
+    const hashLocation = window.location.hash.substring(1);
+    let project;
+    if (hashLocation !== "" && (project = document.querySelector(`.project[data-name=${hashLocation}]`)) !== null) {
+        selectProject(project, false);
+    }
 }
