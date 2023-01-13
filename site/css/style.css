@@ -30,8 +30,8 @@ html, body {
 
 .switch {
     display: inline-block;
-    width: 6vw;
-    height: 3.5vw;
+    width: 12vh;
+    height: 7vh;
     position: relative;
     justify-content: space-between;
     align-items: center;
@@ -48,9 +48,9 @@ html, body {
 
 .toggle {
     content: "";
-    height: 2.5vw;
-    width: 2.5vw;
-    font-size: 2.5vw !important;
+    height: 5vh;
+    width: 5vh;
+    font-size: 5vh !important;
     color: skyblue;
     position: absolute;
     left: 50%;
@@ -160,6 +160,21 @@ html, body {
 
 /* END BOX ANIMATION */
 
+.link-name {
+    display: inline;
+    margin-top: 0.25em;
+    padding-right: 0.75em;
+    padding-left: 0.75em;
+    margin-bottom: 0.5em;
+}
+
+.link-box {
+    display: flex;
+    margin-left: auto;
+    margin-top: 0.5em;
+    padding-right: 0.5em;
+}
+
 .content-box {
     position: absolute;
     width: 20vw;
@@ -181,7 +196,7 @@ html, body {
     transition: all 0.2s ease;
 }
 
-.project > .row {
+.row {
     display: flex;
     align-items: center;
 }
