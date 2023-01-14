@@ -5,6 +5,10 @@ body {
     font-family: "Noto Sans JP", "Noto Sans", sans-serif;
 }
 
+p {
+    font-family: "Noto Serif JP", "Noto Serif", serif;
+}
+
 h1, h2 {
     text-align: center;
 }
@@ -184,13 +188,16 @@ html, body {
     height: stretch;
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
-    overflow-y: scroll;
-    -ms-overflow-style: none; /* Internet Explorer 10+ */
-    scrollbar-width: none; /* Firefox */
     transition: all 3s ease;
 }
 
-.content-box::-webkit-scrollbar {
+.hidden-scroll {
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+}
+
+.hidden-scroll::-webkit-scrollbar {
     display: none; /* Safari and Chrome */
 }
 
@@ -219,9 +226,17 @@ html, body {
 }
 
 .details-box {
+    position: absolute;
+    height: 100%;
+    height: -moz-available; /* WebKit-based browsers will ignore this. */
+    height: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+    height: stretch;
+    border-bottom-right-radius: 25px;
+    transition: all 3s ease;
     left: 20vw;
     width: 0;
     animation-fill-mode: forwards;
+    overflow: hidden;
 }
 
 @keyframes details-box-widen {

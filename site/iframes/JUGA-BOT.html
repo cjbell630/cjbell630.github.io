@@ -2,7 +2,48 @@
     <link rel="stylesheet" href="../css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Noto Sans JP' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Noto Serif' rel='stylesheet'>
 </header>
-<body>
-    <h2 data-text="JUGA-BOT"></h2>
+<body style="display: block;" class="hidden-scroll">
+    <h2 data-text="JUGA-BOT" style="text-align: left"></h2>
+    <p>JUGA is a social/study group at UGA for students who are learning Japanese, in order to help each other learn and
+        to make friends. The group's central focus is the Discord server, which as of January 2023 has 275 members.
+        Discord is a social messaging service which allows large groups of people to communicate in an organized manner.
+        Users are allowed to create bot accounts, which are run using HTTP requests, in order to automate tasks for
+        server moderators. I created and maintain a bot for the JUGA server using a Python wrapper API. The repository
+        is private
+        since it deals with semi-personal information and is designed specifically for the JUGA server, but I'll show
+        some of the code here.</p>
+    <!-- FEATURES -->
+    <h3>Features</h3>
+
+    <!-- ROLES -->
+    <h4>Role Selection</h4>
+    <p>In the server's "roles" channel, there are 3 messages sent back in August of 2021 which have been edited
+        overtime (because sending a new message would notify members unnecessarily). These messages allow members to
+        choose roles, which are groups members can be placed which can do things like give special access to certain
+        channels, or notify only members of a certain group.</p>
+    <div class="row">
+        <img src="../../res/juga-bot-roles.png" width="500vw">
+        <div style="display: block">
+            <p style="padding-left: 0.5em;">In JUGA's case, since it's an academic-based server,
+                there are roles representing current Japanese professors, which can be chosen using the buttons in the
+                first message. When a user presses one of the blue buttons, they are given the role corresponding to
+                that professor. Alternatively, if they press one of the green or red buttons, they are given a role
+                corresponding to that situation. Additionally, when any of these buttons are pressed, any roles the
+                member previously had are removed, meaning a member may have only one of these roles at a time. </p>
+            <p style="padding-left: 0.5em;">The next two messages use dropdown menus with checkboxes, and allow the user
+                to select their preferred pronouns (visible to other users), as well as additional roles, such as the
+                Computer Science role, which gives them access to that channel. Unlike the professor roles, users may
+                have any combination of these roles.</p>
+        </div>
+    </div>
+    <p>The contents of this message are determined via a JSON file, which is read and used to update the messages at
+        startup. When the messages are interacted with, the Discord API gives the bot nothing but the nature of the
+        interaction (the member who interacted, as well as the chosen options if it's a dropdown) and a single
+        customizable ID string, so I created an ID system which allows the bot to quickly determine which type of button
+        is being pressed and deliver the event to the correct handler.</p>
+
+    <!-- ROLES -->
+    <h4>Poll Creation</h4>
 </body>
