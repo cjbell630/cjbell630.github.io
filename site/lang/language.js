@@ -5,8 +5,22 @@ const languages = {
         "YT-CHANNEL": "Japanese Translation",
         "GITHUB": "GitHub",
         "PROJECTS": "Projects",
+        /* JUGA BOT */
         "JUGA-BOT": "JUGA Bot",
         "JUGA-BOT-DESC": "A Discord bot for the Japanese UGA server.",
+        "JUGA-INTRO": "JUGA is a social/study group at UGA for students who are learning Japanese, in order to help " +
+            "each  other learn and to make friends. The group's central focus is the Discord server, which as of " +
+            "January 2023 has 275 members. Discord is a social messaging service which allows large groups of " +
+            "people to communicate in an organized manner. Users are allowed to create bot accounts, which are run " +
+            "using HTTP requests, in order to automate tasks for server moderators. I created and maintain a bot " +
+            "for the JUGA server using a Python wrapper API. The repository is private since it deals with " +
+            "semi-personal information and is designed specifically for the JUGA server, but I'll show some of the " +
+            "code here.",
+        "FEATURES": "Features",
+        "ROLE-SELECTION": "Role Selection",
+        "POLL-CREATION": "Poll Creation",
+
+        /* FNAF */
         "FNAF-ADVANCE": "FNaF Advance",
         "FNAF-ADVANCE-DESC": "A Game Boy Advance port of the game Five Nights at Freddy's.",
         "TALL-INFINITY-HD": "Tall Infinity HD",
@@ -30,8 +44,22 @@ const languages = {
         "YT-CHANNEL": "翻訳チャンネル",
         "GITHUB": "GitHub",
         "PROJECTS": "プロジェクト",
+
+        /* JUGA BOT */
         "JUGA-BOT": "JUGAボット",
         "JUGA-BOT-DESC": "ジョージア大学の日本語サークルのDiscordサーバーのためのボット。",
+        "JUGA-INTRO": "JUGAは、ジョージア大学で一緒に日本語を勉強したり友達を作ったりするための研究会です。" +
+            "中心はDiscordサーバーで、2023年1月現在、部員が275人います。" +
+            "Discordとは、大規模なグループがきれいにコミュニケーションができるSNSです。" +
+            "HTTPリクエストでモデレーターの代わりにめんどくさいことを自動化するボットを作成することができます。" +
+            "私はPythonラッパーAPIを使用して、JUGAのためのボットを作成し、保守しています。" +
+            "個人情報があり、JUGAの専用なので、リポジトリはプライベートですが、コードの一部を示します。",
+        "FEATURES": "機能",
+        "ROLE-SELECTION": "ロール選択",
+        "POLL-CREATION": "アンケート取り",
+
+
+        /* FNAF */
         "FNAF-ADVANCE": "FNaFアドバンス",
         "FNAF-ADVANCE-DESC": "「Five Nights at Freddy's」というゲームのゲームボーイアドバンス移植版。",
         "TALL-INFINITY-HD": "TALL∞HD",
