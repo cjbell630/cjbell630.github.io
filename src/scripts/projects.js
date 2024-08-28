@@ -87,7 +87,7 @@ const projects = [
 
 
 let projectBox = document.getElementById("project-box");
-//TODO I wanted to put this in onload but it looks like it was already loaded by the time this script ran -
+//TODO I wanted to put this in onload but it looks like it was already loaded by the time this scripts ran -
 // make sure it works on slow browsers
 projects.forEach(function (project) {
     projectBox.innerHTML += project.generateHTML();
