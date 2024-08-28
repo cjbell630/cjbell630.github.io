@@ -1,11 +1,18 @@
 ---
-import {setLanguage} from "../scripts/lang/language";
+
 ---
 
 <label class="switch" style="position: absolute; top:1vh; right:1vw;">
     <!--https://dev.to/devggaurav/let-s-create-a-custom-toggle-switch-using-html-and-css-33df-->
     <a style="position:absolute; font-size:2vh; left:10%;top:25%;">ENG</a>
     <a style="position:absolute; font-size:1.4vh; right:10%;top:33%;">日本語</a>
-    <input type="checkbox" class="checkbox" onchange="setLanguage(this.checked ? 'ja-JP' : 'en-US');" id="lang-checkbox">
+    <input type="checkbox" class="checkbox" id="lang-checkbox">
     <span class="material-symbols-outlined toggle">language</span>
 </label>
+<script>
+    import {setLanguage, getLanguage} from "../scripts/language.js"
+    const checkbox = document.getElementById("lang-checkbox")
+    // NOTE checked is not an error
+    checkbox.addEventListener("change", ()=>setLanguage(checkbox.checked ? 'ja-JP' : 'en-US'))
+    checkbox.checked = getLanguage() === "ja-JP"
+</script>

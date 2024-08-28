@@ -80,6 +80,17 @@ const languages = {
 }
 
 let language = getCompatibleLanguage(navigator.language);
+
+export function getLanguage(){
+    return language;
+}
+
+export function setLanguage(lang) {
+    language = getCompatibleLanguage(lang);
+    document.documentElement.setAttribute('lang', language);
+    updateText();
+}
+
 document.documentElement.setAttribute('lang', language);
 
 function getCompatibleLanguage(langString) {
@@ -96,17 +107,6 @@ function updateText(documentToUse = document) {
     documentToUse.querySelectorAll(".same-origin-iframe").forEach(function (element) {
         updateText(element.contentWindow.document);
     });
-}
-
-export function setLanguage(lang) {
-    language = getCompatibleLanguage(lang);
-    document.documentElement.setAttribute('lang', language);
-    updateText();
-}
-
-{
-    let checkbox = document.getElementById("lang-checkbox");
-    checkbox.checked = language === "ja-JP";
 }
 
 updateText();
