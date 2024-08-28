@@ -105,11 +105,11 @@ function selectProject(element, updateURL = true) {
     }
 }
 
-function languageToggle(checkbox) {
+export function languageToggle(checkbox) {
     setLanguage(checkbox.checked ? "ja-JP" : "en-US");
 }
 
-function checkURLHash() {
+export function checkURLHash() {
     const hashLocation = window.location.hash.substring(1);
     let project;
     if (hashLocation !== "" && (project = document.querySelector(`.project[data-name=${hashLocation}]`)) !== null) {
