@@ -5,8 +5,6 @@ let rightBox = document.getElementById("right-box");
 
 let boxExpanded = false;
 
-// let canvas = document.getElementById("bg-canvas"); already defined in gallifreyan.js
-
 function resizeBoxes() {
 
     // TODO clean this up it looks stupid
@@ -47,6 +45,7 @@ function bruh() {
 
 function expandRightBox() {
     // hide canvas
+    let canvas = document.getElementById("bg-canvas");
     canvas.style.animation = "fade-out 0.25s";
     canvas.style.animationFillMode = "forwards";
 
@@ -71,7 +70,7 @@ function expandRightBox() {
     detailsBox.style.animationFillMode = "forwards";
 }
 
-function selectProject(element, updateURL = true) {
+export function selectProject(element, name, updateURL = true) {
     if (!boxExpanded) {
         expandRightBox();
     }
@@ -91,7 +90,7 @@ function selectProject(element, updateURL = true) {
     detailsIframe.onanimationend = function (event) {
         // make sure this only happens for the fade out animation
         if (event.animationName === "fade-out") {
-            detailsIframe.src = `./site/iframes/${element.dataset.name}.html`;
+            detailsIframe.src = `./components/old_iframes/${name}.html`;
         }
     }
 
@@ -103,7 +102,7 @@ function selectProject(element, updateURL = true) {
     };
 
     if (updateURL) {
-        window.location.hash = element.dataset.name;
+        window.location.hash = name;
     }
 }
 

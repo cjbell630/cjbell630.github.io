@@ -1,0 +1,9 @@
+---
+import {projects} from "../scripts/projects"
+import Project from "./Project.astro"
+---
+<div class="content-box hidden-scroll" id="project-box">
+    {projects.map(
+        (project) => <Project nameId={project.nameID} descriptionId={project.descriptionID} image={project.image} languages={project.languages}/>
+    )}
+</div>

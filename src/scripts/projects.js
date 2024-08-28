@@ -10,7 +10,7 @@ const Languages = {
     CS: "https://upload.wikimedia.org/wikipedia/commons/b/bd/Logo_C_sharp.svg",
     Ruby: "https://upload.wikimedia.org/wikipedia/commons/f/f1/Ruby_logo.svg",
     Rust: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Rust_programming_language_black_logo.svg",
-    Unity: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Unity_2021.svg\" class=\"invert",
+    Unity: "https://static.wikia.nocookie.net/logopedia/images/c/ce/Unity_%28Icon%29.svg", // TODO fix
     Unreal: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Unreal_Engine_4_logo.svg",
     Blender: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Blender_logo_no_text.svg",
     Python: "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg",
@@ -27,34 +27,9 @@ class Project {
         this.link = link;
         this.image = image;
     }
-
-    getLanguagesHTML() {
-        let html = "";
-        this.languages.forEach(function (language) {
-            html += `<img style=" height:2em; padding-right: 0.5em;margin-left: auto;" src="${language}" alt="Language Logo">`;
-        });
-        return html;
-    }
-
-
-    generateHTML() {
-        return `<div class="project" data-name="${this.nameID}" onclick="selectProject(this)">
-                    <div class="row">
-                        <h2 style="display: inline;margin-top:0;padding-right: 0.75em;padding-left: 0.75em;margin-bottom:0.5em;" data-text="${this.nameID}"></h2>
-                        <div style="margin-left: auto;">${this.getLanguagesHTML()}</div>
-                    </div>
-    
-                    <div class="row">
-                        <img style="padding-left: 1em; height:4em;" src="${this.image}" alt="${this.nameID} image">
-                        <div>
-                            <p style="padding-right: 1em; padding-left: 1em;margin-top:0;margin-bottom:0;" data-text="${this.descriptionID}"></p>
-                        </div>
-                    </div><br>
-                </div><hr>`;
-    }
 }
 
-const projects = [
+export const projects = [
     new Project("JUGA-BOT", "JUGA-BOT-DESC",
         [Languages.Python], "google.com", "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
     ),
@@ -84,11 +59,3 @@ const projects = [
     ),
     // TODO Kotlin
 ];
-
-
-let projectBox = document.getElementById("project-box");
-//TODO I wanted to put this in onload but it looks like it was already loaded by the time this scripts ran -
-// make sure it works on slow browsers
-projects.forEach(function (project) {
-    projectBox.innerHTML += project.generateHTML();
-});

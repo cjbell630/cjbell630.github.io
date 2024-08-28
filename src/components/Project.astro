@@ -1,0 +1,31 @@
+---
+const { nameId, descriptionId, image, languages } = Astro.props
+---
+
+<div class="project" data-name={nameId}>
+        <div class="row">
+            <h2 style="display: inline;margin-top:0;padding-right: 0.75em;padding-left: 0.75em;margin-bottom:0.5em;" data-text={nameId}></h2>
+            <div style="margin-left: auto;">
+                {languages.map(
+                    (language) => <img style=" height:2em; padding-right: 0.5em;margin-left: auto;" src={language} alt="Language Logo">
+                )}
+            </div>
+        </div>
+
+        <div class="row">
+            <img style="padding-left: 1em; height:4em;" src={image} alt={`${nameId} image`}>
+            <div>
+                <p style="padding-right: 1em; padding-left: 1em;margin-top:0;margin-bottom:0;" data-text={descriptionId}></p>
+            </div>
+        </div><br>
+    <hr>
+</div>
+
+<script>
+    import {selectProject} from "../scripts/interaction"
+    document.querySelectorAll(".project").forEach( (project) =>
+        project.addEventListener("click", (event)=>{
+            selectProject(project, project.getAttribute("name"),true)
+        })
+    )
+</script>
