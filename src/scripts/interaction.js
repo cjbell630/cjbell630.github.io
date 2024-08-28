@@ -1,3 +1,5 @@
+import {screenIsVertical} from "./util.js";
+
 let leftBox = document.getElementById("left-box");
 let rightBox = document.getElementById("right-box");
 
@@ -103,10 +105,6 @@ function selectProject(element, updateURL = true) {
     if (updateURL) {
         window.location.hash = element.dataset.name;
     }
-}
-
-export function languageToggle(checkbox) {
-    setLanguage(checkbox.checked ? "ja-JP" : "en-US");
 }
 
 export function checkURLHash() {

@@ -1,3 +1,5 @@
+import {lcm, screenIsVertical} from "./util.js"
+
 let tick = 0;
 let canvas = document.getElementById("bg-canvas");
 let ctx = canvas.getContext("2d");

@@ -98,7 +98,7 @@ function updateText(documentToUse = document) {
     });
 }
 
-function setLanguage(lang) {
+export function setLanguage(lang) {
     language = getCompatibleLanguage(lang);
     document.documentElement.setAttribute('lang', language);
     updateText();

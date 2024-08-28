@@ -1,5 +1,9 @@
 ---
-import {checkURLHash, languageToggle} from "../scripts/interaction.js";
+import Gallifreyan from "../components/Gallifreyan.astro";
+import YouTubeLink from "../components/socials/YouTubeLink.astro";
+import GitHubLink from "../components/socials/GitHubLink.astro";
+import LanguageSwitch from "../components/LanguageSwitch.astro"
+import "../styles/style.css";
 ---
 
 <html lang="en" style="background: black">
@@ -9,54 +13,26 @@ import {checkURLHash, languageToggle} from "../scripts/interaction.js";
         <meta name="viewport" content="width=device-width"/>
         <meta name="generator" content={Astro.generator}/>
         <title>Connor Bell GitHub</title>
-        <link rel="stylesheet" href="../styles/style.css">
         <link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Noto Sans JP' rel='stylesheet'>
-        <script src="https://apis.google.com/js/platform.js"></script>
+
         <link rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-        <script async defer src="https://buttons.github.io/buttons.js"></script>
+
     </head>
     <body>
-        <canvas id="bg-canvas"></canvas>
+        <Gallifreyan />
 
         <h1 data-text="NAME" style="position: absolute; top:1vh; left:1vw; font-size:3vh"></h1>
-        <label class="switch" style="position: absolute; top:1vh; right:1vw;">
-            <!--https://dev.to/devggaurav/let-s-create-a-custom-toggle-switch-using-html-and-css-33df-->
-            <a style="position:absolute; font-size:2vh; left:10%;top:25%;">ENG</a>
-            <a style="position:absolute; font-size:1.4vh; right:10%;top:33%;">日本語</a>
-            <input type="checkbox" class="checkbox" onchange="languageToggle(this)" id="lang-checkbox">
-            <span class="material-symbols-outlined toggle">language</span>
-        </label>
+        <LanguageSwitch/>
 
         <div id="left-box" style="position: absolute; width: 20vw; height: 80vh; left:2.5vw; top: 10vh;">
             <div class="expanding-box">
                 <h1 data-text="LINKS"></h1>
                 <hr style="margin-bottom: 0;">
                 <div>
-                    <div class="row">
-                        <span class="link-name" data-text="YT-CHANNEL"></span>
-                        <div class="link-box">
-                            <div class="g-ytsubscribe" data-channelid="UCf5jWb_27QvHXp0Mskeh9dQ" data-layout="full"
-                                 data-theme="dark" data-count="hidden">Loading...
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <span class="link-name" data-text="GITHUB"></span>
-                        <div class="link-box">
-                            <a href="https://github.com/cjbell630" style="display: inline; margin-left: auto;">
-                                <img src="https://github.com/cjbell630.png" alt="GitHub profile picture"
-                                     style="height:3em;border-radius: 25px">
-                            </a>
-                            <div style="display: inline; margin-left: auto; padding-left: 0.5em;">
-                                <a style="font-size:0.75em">&nbspConnor Bell</a>
-                                <br>
-                                <a class="github-button" href="https://github.com/cjbell630" data-size="large"
-                                   aria-label="Follow @cjbell630 on GitHub">&nbspFollow&nbsp&nbsp</a>
-                            </div>
-                        </div>
-                    </div>
+                    <YouTubeLink />
+                    <GitHubLink />
                 </div>
             </div>
         </div>
@@ -79,9 +55,9 @@ import {checkURLHash, languageToggle} from "../scripts/interaction.js";
     </body>
     <script>
         import "../scripts/util.js";
-        import "../scripts/gallifreyan.js";
         import "../scripts/projects.js";
         import "../scripts/lang/language.js";
+        import {checkURLHash} from "../scripts/interaction.js";
 
         checkURLHash();
     </script>
